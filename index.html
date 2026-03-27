@@ -53,7 +53,28 @@
         .snowflake { top: -10px; color: rgba(255, 255, 255, 0.7); }
         .heart { color: #ff4d6d; z-index: 999; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-    </style>/* Hiệu ứng rung rinh khi di chuột vào nút */
+    </style><.marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 10px;
+            margin-top: 20px;
+            padding: 5px 0;
+            white-space: nowrap;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            text-shadow: 0 0 5px var(--accent-color);
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }/* Hiệu ứng rung rinh khi di chuột vào nút */
         .link-card:hover {
             animation: shake 0.5s ease-in-out infinite;
             border-color: #ff0077; /* Đổi viền sang màu hồng khi di chuột */
@@ -95,7 +116,11 @@
         var icon = document.getElementById("music-icon");
         var text = document.getElementById("music-text");
         var heartInterval;
-<div id="clock-container">
+<div id="clock-container"><div class="marquee-container">
+    <div class="marquee-text">
+        Chào mừng bạn đến với Profile của trường! 🚀 Chúc bạn một ngày tốt lành và tràn đầy năng lượng! ✨
+    </div>
+</div>
     <div id="digital-clock">00:00:00</div>
     <div id="date-display">Thứ Sáu, 27 Tháng 3, 2026</div>
 </div>
