@@ -7,12 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #38bdf8; --bg: #0f172a; }
+        :root { --primary: #38bdf8; --bg: #0f172a; --heart-color: #ff4d6d; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; overflow: hidden; position: relative;
+            min-height: 100vh; overflow: hidden; position: relative; user-select: none;
         }
         .container {
             width: 95%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
@@ -20,31 +20,35 @@
             text-align: center; z-index: 10; position: relative;
         }
 
-        /* ĐỒNG HỒ LED PHÁT SÁNG */
+        /* ĐỒNG HỒ LED */
         #clock {
             font-family: 'Courier New', Courier, monospace;
             font-size: 1.8rem; font-weight: bold; color: var(--primary);
             text-shadow: 0 0 15px var(--primary); margin-bottom: 20px; letter-spacing: 2px;
         }
 
+        /* ẢNH ĐẠI DIỆN */
         .avatar { 
-            width: 90px; height: 90px; object-fit: cover; border-radius: 50%; 
+            width: 100px; height: 100px; object-fit: cover; border-radius: 50%; 
             margin: 0 auto 15px; display: block; border: 3px solid var(--primary); 
-            box-shadow: 0 0 15px var(--primary); 
+            box-shadow: 0 0 20px var(--primary); 
         }
 
+        /* TÊN ĐỔI MÀU */
         h1 {
             background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #38bdf8);
             background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: gradientText 3s linear infinite; font-size: 1.6rem;
+            animation: gradientText 3s linear infinite; font-size: 1.8rem;
         }
         @keyframes gradientText { to { background-position: 200% center; } }
 
+        /* NÚT LIÊN KẾT */
         .links { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
-        .link-card { background: rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; }
-        .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); }
-        .link-card i { margin-right: 12px; color: var(--primary); }
+        .link-card { background: rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid transparent; }
+        .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); border-color: var(--primary); }
+        .link-card i { margin-right: 12px; color: var(--primary); font-size: 1.2rem; }
 
+        /* NÚT NHẠC */
         .music-btn {
             margin-top: 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
             padding: 10px 25px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary);
@@ -52,9 +56,10 @@
         .playing { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
+        /* BONG BÓNG */
         .bubble {
-            position: fixed; bottom: -100px; background: rgba(56, 189, 248, 0.3);
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); border-radius: 50%;
+            position: fixed; bottom: -100px; background: rgba(56, 189, 248, 0.2);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4); border-radius: 50%;
             pointer-events: none; z-index: 1; animation: floatUp linear forwards;
         }
         @keyframes floatUp {
@@ -62,16 +67,100 @@
             20% { opacity: 0.8; }
             100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
         }
+
+        /* HIỆU ỨNG TRÁI TIM KHI CHẠM */
+        .heart {
+            position: fixed; color: var(--heart-color); font-size: 20px;
+            pointer-events: none; z-index: 999; animation: heartFly 1s linear forwards;
+        }
+        @keyframes heartFly {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(0, -100px) scale(1.5); opacity: 0; }
+        }
     </style>
 </head>
-<body onclick="startApp()">
+<body onclick="startApp(event)">
 
     <div class="container">
         <div id="clock">00:00:00</div>
-
         <img src="avatar.jpg.jpg" class="avatar" alt="Avatar">
         <h1>Trọng Trường</h1>
-        <p style="font-size: 0.9rem; opacity: 0.8;">Kết nối xu hướng - Lan tỏa đam mê</p>
+        <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 5px;">Kết nối xu hướng - Lan tỏa đam mê</p>
 
         <div class="links">
-            <a href="
+            <a href="https://www.tiktok.com/@_012di07tuoi09_" target="_blank" class="link-card"><i class="fa-brands fa-tiktok"></i> TikTok của mình</a>
+            <a href="https://www.facebook.com/Truong12072009" target="_blank" class="link-card"><i class="fa-brands fa-facebook"></i> Facebook chính chủ</a>
+        </div>
+
+        <div class="music-btn" onclick="toggleMusic(event)">
+            <i id="music-icon" class="fa-solid fa-compact-disc"></i>
+            <span id="music-text">Bật Nhạc</span>
+        </div>
+
+        <audio id="myAudio" loop>
+            <source src="nhac.mp3.mp3" type="audio/mpeg">
+        </audio>
+
+        <footer style="margin-top:20px; font-size:10px; opacity:0.3;">&copy; 2026 hoanganh17211-ux</footer>
+    </div>
+
+    <script>
+        var song = document.getElementById("myAudio");
+        var icon = document.getElementById("music-icon");
+        var text = document.getElementById("music-text");
+        var hasClicked = false;
+
+        // KHỞI CHẠY APP & TẠO TRÁI TIM
+        function startApp(e) {
+            if (!hasClicked) { toggleMusic(); hasClicked = true; }
+            createHeart(e);
+        }
+
+        function toggleMusic(e) {
+            if(e) e.stopPropagation(); // Không tạo tim khi bấm nút nhạc
+            if (song.paused) {
+                song.play().then(() => {
+                    text.innerHTML = "Đang Phát"; icon.classList.add("playing");
+                }).catch(e => { console.log(e); });
+            } else {
+                song.pause(); text.innerHTML = "Tạm Dừng"; icon.classList.remove("playing");
+            }
+        }
+
+        // ĐỒNG HỒ
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').innerText = `${h}:${m}:${s}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // BONG BÓNG
+        function createBubble() {
+            const b = document.createElement('div');
+            b.className = 'bubble';
+            const size = Math.random() * 20 + 10 + 'px';
+            b.style.width = size; b.style.height = size;
+            b.style.left = Math.random() * 100 + 'vw';
+            const dur = Math.random() * 5 + 5;
+            b.style.animationDuration = dur + 's';
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), dur * 1000);
+        }
+        setInterval(createBubble, 700);
+
+        // TRÁI TIM KHI CHẠM
+        function createHeart(e) {
+            const h = document.createElement('div');
+            h.className = 'fa-solid fa-heart heart';
+            h.style.left = (e.clientX - 10) + 'px';
+            h.style.top = (e.clientY - 10) + 'px';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 1000);
+        }
+    </script>
+</body>
+</html>
