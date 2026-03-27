@@ -12,66 +12,60 @@
         body {
             font-family: 'Inter', sans-serif;
             background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; overflow: hidden; position: relative; user-select: none;
-            transition: background 1s ease;
+            min-height: 100vh; overflow: hidden; position: relative;
         }
-        body.playing-music { background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); animation: pulse 4s infinite alternate; }
-        @keyframes pulse { 0% { background-color: #0f172a; } 100% { background-color: #1e1b4b; } }
+        body.playing { background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); }
 
         .container {
             width: 90%; max-width: 380px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px; padding: 30px 20px; 
-            text-align: center; z-index: 10; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center; z-index: 10; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        #clock { font-size: 2.2rem; font-weight: bold; color: var(--primary); text-shadow: 0 0 20px var(--primary); margin-bottom: 20px; font-family: monospace; }
-        .avatar { width: 110px; height: 110px; object-fit: cover; border-radius: 50%; margin: 0 auto 15px; display: block; border: 3px solid var(--primary); transition: 0.5s; object-position: top; }
-        .avatar.rotating { animation: rotate 4s linear infinite; border-color: #ff4d6d; box-shadow: 0 0 30px #ff4d6d; }
+        #clock { font-size: 2.2rem; font-weight: bold; color: var(--primary); margin-bottom: 20px; font-family: monospace; }
+        
+        /* Hiệu ứng Avatar xoay khi có nhạc */
+        .avatar { width: 110px; height: 110px; object-fit: cover; border-radius: 50%; margin: 0 auto 15px; display: block; border: 3px solid var(--primary); transition: 0.5s; }
+        .avatar.rotating { animation: rotate 5s linear infinite; border-color: #ff4d6d; box-shadow: 0 0 30px #ff4d6d; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        h1 { background: linear-gradient(90deg, #38bdf8, #c084fc, #38bdf8); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; font-size: 1.8rem; }
-        @keyframes shine { to { background-position: 200% center; } }
+        /* Chữ chạy (Marquee) */
+        .marquee { width: 100%; overflow: hidden; white-space: nowrap; margin: 10px 0; color: #a78bfa; font-weight: bold; }
+        .marquee span { display: inline-block; animation: scroll 10s linear infinite; }
+        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .links { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; }
-        .link-card { background: rgba(255, 255, 255, 0.08); padding: 14px; border-radius: 15px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .link-card:hover { background: rgba(255, 255, 255, 0.2); transform: translateX(5px); border-color: var(--primary); }
-        .link-card i { margin-right: 15px; font-size: 1.4rem; width: 25px; text-align: center; }
+        .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .link-card { background: rgba(255, 255, 255, 0.08); padding: 14px; border-radius: 15px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; }
+        .link-card:hover { background: rgba(255, 255, 255, 0.2); transform: scale(1.02); }
+        .link-card i { margin-right: 15px; font-size: 1.4rem; }
         
-        .music-btn { margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px; background: rgba(56, 189, 248, 0.15); border-radius: 50px; border: 1px solid var(--primary); transition: 0.3s; font-weight: bold; }
+        .music-btn { margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary); font-weight: bold; }
         .music-btn.active { background: #ff4d6d; border-color: white; }
-
-        .bubble { position: fixed; bottom: -100px; background: rgba(56, 189, 248, 0.2); border-radius: 50%; pointer-events: none; animation: floatUp linear forwards; }
-        @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 100% { transform: translateY(-120vh) scale(1.2); opacity: 0; } }
-        .heart { position: fixed; color: #ff4d6d; pointer-events: none; animation: heartFly 1s ease-out forwards; font-size: 20px; }
-        @keyframes heartFly { 0% { transform: scale(1); opacity: 1; } 100% { transform: translateY(-100px) scale(1.5); opacity: 0; } }
     </style>
 </head>
-<body onclick="createHeart(event)">
+<body>
 
-    <audio id="myAudio" loop preload="auto">
-        <source src="https://files.catbox.moe/m1z4v2.mp3" type="audio/mpeg">
+    <audio id="myAudio" loop>
+        <source src="https://api.vung.id.vn/music/gio_lofi.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container">
         <div id="clock">00:00:00</div>
-        <img src="https://i.imgur.com/kS94P2r.png" alt="Avatar Trọng Trường" class="avatar" id="avatar">
+        
+        <img src="https://i.imgur.com/kS94P2r.png" alt="Avatar" class="avatar" id="avatar">
         
         <h1>Trọng Trường</h1>
-        <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 5px;">Học sinh lớp 9 | Developer 🇻🇳</p>
-
-        <div class="links">
-            <a href="https://www.facebook.com/Truong12072009" target="_blank" class="link-card">
-                <i class="fab fa-facebook" style="color:#1877f2"></i> Facebook Cá Nhân
-            </a>
-            <a href="https://m.me/Truong12072009" target="_blank" class="link-card">
-                <i class="fab fa-facebook-messenger" style="color:#00b2ff"></i> Nhắn tin cho mình
-            </a>
-            <a href="https://www.tiktok.com/@_012di07tuoi09_" target="_blank" class="link-card">
-                <i class="fab fa-tiktok"></i> Ghé thăm TikTok
-            </a>
+        
+        <div class="marquee">
+            <span>Học sinh lớp 9 | Web Developer 🇻🇳 | Chào mừng bạn đến với Profile của mình!</span>
         </div>
 
-        <div class="music-btn" id="musicBtn" onclick="toggleMusic(event)">
+        <div class="links">
+            <a href="https://www.facebook.com/Truong12072009" target="_blank" class="link-card"><i class="fab fa-facebook" style="color:#1877f2"></i> Facebook</a>
+            <a href="https://www.tiktok.com/@_012di07tuoi09_" target="_blank" class="link-card"><i class="fab fa-tiktok"></i> TikTok</a>
+        </div>
+
+        <div class="music-btn" id="musicBtn" onclick="toggleMusic()">
             <i class="fas fa-compact-disc" id="icon"></i>
             <span id="text">PHÁT NHẠC TIKTOK</span>
         </div>
@@ -85,47 +79,22 @@
 
         const audio = document.getElementById("myAudio");
         const btn = document.getElementById("musicBtn");
-        const icon = document.getElementById("icon");
         const avatar = document.getElementById("avatar");
         let isPlaying = false;
 
-        function toggleMusic(e) {
-            e.stopPropagation();
+        function toggleMusic() {
             if (isPlaying) {
                 audio.pause();
-                icon.classList.remove('rotating');
                 avatar.classList.remove('rotating');
                 btn.classList.remove('active');
-                document.body.classList.remove('playing-music');
                 document.getElementById('text').innerText = "PHÁT NHẠC TIKTOK";
             } else {
-                audio.play().catch(() => alert("Nhấn lại nút để quẩy nhạc nhé!"));
-                icon.classList.add('rotating');
+                audio.play().catch(() => alert("Hãy nhấn lại lần nữa để nghe nhạc!"));
                 avatar.classList.add('rotating');
                 btn.classList.add('active');
-                document.body.classList.add('playing-music');
                 document.getElementById('text').innerText = "ĐANG QUẨY...";
             }
             isPlaying = !isPlaying;
-        }
-
-        setInterval(() => {
-            const b = document.createElement('div');
-            b.className = 'bubble';
-            b.style.width = b.style.height = Math.random() * 20 + 10 + 'px';
-            b.style.left = Math.random() * 100 + 'vw';
-            b.style.animationDuration = Math.random() * 3 + 4 + 's';
-            document.body.appendChild(b);
-            setTimeout(() => b.remove(), 7000);
-        }, 500);
-
-        function createHeart(e) {
-            const h = document.createElement('i');
-            h.className = 'fas fa-heart heart';
-            h.style.left = e.clientX - 10 + 'px';
-            h.style.top = e.clientY - 10 + 'px';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 1000);
         }
     </script>
 </body>
