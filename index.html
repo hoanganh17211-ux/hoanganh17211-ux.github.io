@@ -6,7 +6,23 @@
     <title>Hoàng Anh | Profile</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+    <style>/* Hiệu ứng bóng nước */
+        .bubble {
+            position: fixed;
+            bottom: -50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1; /* Bay phía sau nội dung */
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            20% { opacity: 0.4; }
+            100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+        }
         :root { --primary: #38bdf8; --bg: #0f172a; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -46,7 +62,30 @@
             <a href="https://www.facebook.com/Truong12072009" class="link-card"><i class="fa-brands fa-facebook"></i> Facebook</a>
         </div>
 
-        <div class="music-btn" onclick="toggleMusic()">
+        <div class="music-btn" onclick="toggleMusic(function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            
+            // Kích thước ngẫu nhiên từ 15px đến 45px
+            const size = Math.random() * 30 + 15 + 'px';
+            bubble.style.width = size;
+            bubble.style.height = size;
+            
+            // Vị trí ngang ngẫu nhiên
+            bubble.style.left = Math.random() * 100 + 'vw';
+            
+            // Tốc độ bay ngẫu nhiên từ 6s đến 12s
+            const duration = Math.random() * 6 + 6;
+            bubble.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(bubble);
+            
+            // Xóa bóng sau khi hoàn thành animation
+            setTimeout(() => { bubble.remove(); }, duration * 1000);
+        }
+
+        // Tạo bóng nước mỗi 1.5 giây
+        setInterval(createBubble, 1500);)">
             <i id="music-icon" class="fa-solid fa-compact-disc"></i>
             <span id="music-text">Bật Nhạc</span>
         </div>
