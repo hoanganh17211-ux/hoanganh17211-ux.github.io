@@ -83,7 +83,10 @@
                     text.innerHTML = "Đang Phát";
                     icon.classList.add("playing");
                     wave.style.display = "flex";
-                }).catch(e => alert("Nhấn lại lần nữa để phát nhạc nhé!"));
+                }).catch(e => {
+                    console.log(e);
+                    alert("Hãy nhấn lại nút Bật Nhạc một lần nữa nhé!");
+                });
             } else {
                 song.pause();
                 text.innerHTML = "Tạm Dừng";
