@@ -7,121 +7,82 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #38bdf8; --bg: #0f172a; --heart-color: #ff4d6d; --messenger: #0084ff; }
+        :root { --primary: #38bdf8; --bg: #0f172a; --heart-color: #ff4d6d; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg); color: white; display: flex; justify-content: center; align-items: center; 
             min-height: 100vh; overflow: hidden; position: relative; user-select: none;
-            transition: background 0.5s ease;
+            transition: background 0.8s ease;
         }
-        /* Hiệu ứng nền khi có nhạc */
+
+        /* Hiệu ứng nền khi nhạc phát */
         body.music-active {
-            background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
-            animation: pulseBg 3s infinite alternate;
+            animation: pulseBg 4s infinite alternate;
         }
         @keyframes pulseBg {
             0% { background-color: #0f172a; }
-            100% { background-color: #1e1b4b; }
+            50% { background-color: #1e1b4b; }
+            100% { background-color: #2e1065; }
         }
 
         .container {
-            width: 95%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px; padding: 25px 20px; 
-            text-align: center; z-index: 10; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 90%; max-width: 400px; background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 35px; padding: 30px 20px; 
+            text-align: center; z-index: 10; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
         }
 
-        #clock { font-size: 2.2rem; font-weight: bold; color: var(--primary); text-shadow: 0 0 20px var(--primary); margin-bottom: 15px; font-family: 'Courier New', monospace; }
-        .avatar { width: 110px; height: 110px; object-fit: cover; border-radius: 50%; margin: 0 auto 15px; display: block; border: 3px solid var(--primary); box-shadow: 0 0 25px var(--primary); transition: 0.5s; }
-        .avatar.playing { transform: scale(1.1); border-color: #ff4d6d; box-shadow: 0 0 30px #ff4d6d; }
+        #clock { font-size: 2.2rem; font-weight: bold; color: var(--primary); text-shadow: 0 0 15px var(--primary); margin-bottom: 20px; font-family: 'Courier New', monospace; }
+        
+        .avatar { width: 120px; height: 120px; object-fit: cover; border-radius: 50%; margin: 0 auto 15px; display: block; border: 3px solid var(--primary); box-shadow: 0 0 20px var(--primary); transition: 0.5s; }
+        .avatar.playing { transform: scale(1.05); border-color: #ff4d6d; box-shadow: 0 0 30px #ff4d6d; }
 
-        h1 { background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #38bdf8); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientText 3s linear infinite; font-size: 1.8rem; }
+        h1 { background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #38bdf8); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientText 3s linear infinite; font-size: 1.8rem; letter-spacing: 1px; }
         @keyframes gradientText { to { background-position: 200% center; } }
 
-        .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .link-card { background: rgba(255, 255, 255, 0.08); padding: 14px; border-radius: 15px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.1); font-weight: 500; }
-        .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateX(10px); border-color: var(--primary); }
-        .link-card i { margin-right: 15px; font-size: 1.4rem; width: 25px; }
+        .links { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
+        .link-card { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 18px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.4s; border: 1px solid rgba(255, 255, 255, 0.05); font-weight: 600; }
+        .link-card:hover { background: rgba(56, 189, 248, 0.2); transform: translateX(8px); border-color: var(--primary); }
+        .link-card i { margin-right: 15px; font-size: 1.5rem; width: 30px; text-align: center; }
         
+        .fa-facebook { color: #1877f2; }
+        .fa-facebook-messenger { color: #00b2ff; }
         .fa-tiktok { color: #ffffff; }
-        .fa-facebook { color: #1877f2; }https://www.facebook.com/Truong12072009
 
-        .fa-facebook-messenger { color: #00b2ff; }https://www.facebook.com/Truong12072009
-
-
-        .music-btn { margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px; background: rgba(56, 189, 248, 0.15); border-radius: 50px; border: 1px solid var(--primary); transition: 0.3s; }
-        .music-btn.active { background: #ff4d6d; border-color: #ff4d6d; color: white; box-shadow: 0 0 20px rgba(255, 77, 109, 0.4); }
-        .spin { animation: spin 2s linear infinite; }
+        .music-btn { margin-top: 30px; cursor: pointer; display: inline-flex; align-items: center; gap: 12px; padding: 14px 35px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary); transition: 0.4s; font-weight: bold; }
+        .music-btn.active { background: #ff4d6d; border-color: #ff4d6d; box-shadow: 0 0 20px rgba(255, 77, 109, 0.5); }
+        .spin { animation: spin 3s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .bubble { position: fixed; bottom: -100px; background: rgba(56, 189, 248, 0.2); border-radius: 50%; pointer-events: none; z-index: 1; animation: floatUp linear forwards; }
-        @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 100% { transform: translateY(-120vh) scale(1.2); opacity: 0; } }
-        .heart { position: fixed; color: var(--heart-color); font-size: 22px; pointer-events: none; z-index: 999; animation: heartFly 1s ease-out forwards; }
-        @keyframes heartFly { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(0, -120px) scale(1.6); opacity: 0; } }
+        .bubble { position: fixed; bottom: -100px; background: rgba(56, 189, 248, 0.15); border-radius: 50%; pointer-events: none; z-index: 1; animation: floatUp linear forwards; }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 100% { transform: translateY(-120vh) scale(1.5); opacity: 0; } }
+        .heart { position: fixed; color: var(--heart-color); font-size: 25px; pointer-events: none; z-index: 999; animation: heartFly 1s ease-out forwards; }
+        @keyframes heartFly { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(0, -150px) scale(2); opacity: 0; } }
     </style>
 </head>
 <body onclick="createHeart(event)">
 
-    <audio id="myAudio" loop>
-        <source src="https://files.catbox.moe/9wa670.mp3" type="audio/mpeg">
-    </audio><audio id="myAudio" loop preload="auto">
-    <source src="https://files.catbox.moe/m1z4v2.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-    const audio = document.getElementById("myAudio");
-    const musicBtn = document.getElementById("musicBtn");
-    const musicIcon = document.getElementById("musicIcon");
-    let isPlaying = false;
-
-    // Hàm xử lý bật/tắt nhạc
-    function toggleMusic(e) {
-        if (e) e.stopPropagation(); 
-        
-        if (isPlaying) {
-            audio.pause();
-            musicIcon.classList.remove('spin');
-            musicBtn.style.background = "rgba(56, 189, 248, 0.15)";
-            document.getElementById('musicText').innerText = "Phát Nhạc Chill";
-        } else {
-            // Quan trọng: Trình duyệt yêu cầu phải có tương tác mới cho phát nhạc
-            audio.play().then(() => {
-                musicIcon.classList.add('spin');
-                musicBtn.style.background = "#ff4d6d";
-                document.getElementById('musicText').innerText = "Đang Phát...";
-            }).catch(error => {
-                alert("Vui lòng chạm vào màn hình một lần nữa để nghe nhạc!");
-            });
-        }
-        isPlaying = !isPlaying;
-    }
-
-    // Tự động mồi nhạc khi người dùng chạm bất kỳ đâu lần đầu tiên
-    document.addEventListener('click', function() {
-        if (!isPlaying) {
-            // Chỉ chuẩn bị sẵn, chưa phát để tránh làm phiền
-            audio.load(); 
-        }
-    }, { once: true });
-</script>
+    <audio id="myAudio" loop preload="auto">
+        <source src="https://api.vung.id.vn/music/gio_lofi.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="container">
         <div id="clock">00:00:00</div>
 
-        <img src="https://via.placeholder.com/150" alt="Avatar" class="avatar" id="avatarImg">
+        <img src="https://i.imgur.com/8Km9tLL.png" alt="Avatar" class="avatar" id="avatarImg">
         
         <h1>Trọng Trường</h1>
         <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 5px;">Học sinh lớp 9 | Developer 🇻🇳</p>
 
         <div class="links">
             <a href="https://www.facebook.com/hoanganh17211" target="_blank" class="link-card">
-                <i class="fab fa-facebook"></i> Facebook Cá Nhân
+                <i class="fab fa-facebook"></i> Facebook
             </a>
             <a href="https://m.me/hoanganh17211" target="_blank" class="link-card">
-                <i class="fab fa-facebook-messenger"></i> Nhắn tin cho mình
+                <i class="fab fa-facebook-messenger"></i> Messenger
             </a>
             <a href="https://www.tiktok.com/@_012di07tuoi09_" target="_blank" class="link-card">
-                <i class="fab fa-tiktok"></i> Ghé thăm TikTok
+                <i class="fab fa-tiktok"></i> TikTok
             </a>
         </div>
 
@@ -132,14 +93,13 @@
     </div>
 
     <script>
-        // Đồng hồ
+        // Cập nhật đồng hồ
         function updateClock() {
             const now = new Date();
             document.getElementById('clock').innerText = now.toLocaleTimeString('vi-VN');
         }
         setInterval(updateClock, 1000); updateClock();
 
-        // Xử lý nhạc
         const audio = document.getElementById("myAudio");
         const musicBtn = document.getElementById("musicBtn");
         const musicIcon = document.getElementById("musicIcon");
@@ -147,7 +107,7 @@
         let isPlaying = false;
 
         function toggleMusic(e) {
-            e.stopPropagation(); // Không cho nổ tim khi bấm nút nhạc
+            e.stopPropagation();
             if (isPlaying) {
                 audio.pause();
                 musicIcon.classList.remove('spin');
@@ -156,29 +116,29 @@
                 document.body.classList.remove('music-active');
                 document.getElementById('musicText').innerText = "Phát Nhạc Chill";
             } else {
-                audio.play();
+                audio.play().catch(() => alert("Nhấn lại nút Phát Nhạc một lần nữa nhé!"));
                 musicIcon.classList.add('spin');
                 musicBtn.classList.add('active');
                 avatar.classList.add('playing');
                 document.body.classList.add('music-active');
-                document.getElementById('musicText').innerText = "Đang Phát...";
+                document.getElementById('musicText').innerText = "Đang Chill...";
             }
             isPlaying = !isPlaying;
         }
 
-        // Bong bóng nền
+        // Tạo bong bóng bay liên tục
         setInterval(() => {
             const b = document.createElement('div');
             b.className = 'bubble';
             const size = Math.random() * 30 + 10 + 'px';
             b.style.width = size; b.style.height = size;
             b.style.left = Math.random() * 100 + 'vw';
-            b.style.animationDuration = Math.random() * 3 + 4 + 's';
+            b.style.animationDuration = Math.random() * 4 + 5 + 's';
             document.body.appendChild(b);
-            setTimeout(() => b.remove(), 6000);
-        }, 600);
+            setTimeout(() => b.remove(), 8000);
+        }, 500);
 
-        // Hiệu ứng tim
+        // Hiệu ứng nổ tim khi click
         function createHeart(e) {
             const h = document.createElement('i');
             h.className = 'fas fa-heart heart';
