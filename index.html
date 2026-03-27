@@ -11,21 +11,21 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(circle at top right, #1e293b, #0f172a);
-            color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden;
-            position: relative;
+            background: #0f172a;
+            color: white; display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; overflow: hidden; position: relative;
         }
         .container {
-            width: 100%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; text-align: center; z-index: 10;
+            width: 90%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; 
+            text-align: center; z-index: 10; position: relative;
         }
-        .avatar { width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; font-weight: bold; }
+        .avatar { width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; font-weight: bold; box-shadow: 0 0 20px var(--primary); }
         .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .link-card { background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 10px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid transparent; }
-        .link-card:hover { border-color: var(--primary); transform: translateY(-3px); }
-        .link-card i { margin-right: 12px; }
+        .link-card { background: rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; }
+        .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); }
+        .link-card i { margin-right: 12px; color: var(--primary); }
 
-        /* Nút nhạc */
         .music-btn {
             margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
             padding: 10px 25px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary);
@@ -33,30 +33,25 @@
         .playing { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Sóng nhạc */
-        #wave { display: none; justify-content: center; align-items: flex-end; gap: 3px; height: 20px; margin-top: 15px; }
-        .bar { width: 3px; background: var(--primary); animation: bounce 1s ease-in-out infinite; }
-        @keyframes bounce { 0%, 100% { height: 5px; } 50% { height: 20px; } }
-
-        /* CSS Bong bóng - Đã thêm màu để dễ nhìn */
+        /* BONG BÓNG SIÊU RÕ */
         .bubble {
             position: fixed;
-            bottom: -50px;
-            background: rgba(56, 189, 248, 0.15); /* Màu xanh nhạt */
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            bottom: -100px;
+            background: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
             border-radius: 50%;
             pointer-events: none;
             z-index: 1; 
             animation: floatUp linear forwards;
         }
         @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
         }
     </style>
 </head>
-<body onclick="firstClick()">
+<body onclick="startApp()">
 
     <div class="container">
         <div class="avatar">TT</div>
@@ -73,10 +68,6 @@
             <span id="music-text">Bật Nhạc</span>
         </div>
 
-        <div id="wave">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        </div>
-
         <audio id="myAudio" loop>
             <source src="nhac.mp3.mp3" type="audio/mpeg">
         </audio>
@@ -88,44 +79,43 @@
         var song = document.getElementById("myAudio");
         var icon = document.getElementById("music-icon");
         var text = document.getElementById("music-text");
-        var wave = document.getElementById("wave");
-        var hasStarted = false;
+        var hasClicked = false;
 
-        function firstClick() {
-            if (!hasStarted) { toggleMusic(); hasStarted = true; }
+        function startApp() {
+            if (!hasClicked) {
+                toggleMusic();
+                hasClicked = true;
+            }
         }
 
         function toggleMusic() {
             if (song.paused) {
-                song.play().then(() => {
-                    text.innerHTML = "Đang Phát";
-                    icon.classList.add("playing");
-                    wave.style.display = "flex";
-                }).catch(e => { console.log(e); });
+                song.play();
+                text.innerHTML = "Đang Phát";
+                icon.classList.add("playing");
             } else {
                 song.pause();
                 text.innerHTML = "Tạm Dừng";
                 icon.classList.remove("playing");
-                wave.style.display = "none";
             }
         }
 
-        // --- Hàm tạo bong bóng (Tự động chạy ngay khi load web) ---
+        // TẠO BONG BÓNG
         function createBubble() {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
-            const size = Math.random() * 30 + 15 + 'px';
+            const size = Math.random() * 25 + 10 + 'px';
             bubble.style.width = size;
             bubble.style.height = size;
             bubble.style.left = Math.random() * 100 + 'vw';
-            const duration = Math.random() * 5 + 7;
+            const duration = Math.random() * 4 + 4; // Bay nhanh hơn để dễ thấy
             bubble.style.animationDuration = duration + 's';
             document.body.appendChild(bubble);
             setTimeout(() => { bubble.remove(); }, duration * 1000);
         }
 
-        // Tạo bong bóng liên tục mỗi 1 giây
-        setInterval(createBubble, 1000);
+        // Tạo bong bóng dày đặc hơn (mỗi 0.5 giây)
+        setInterval(createBubble, 500);
     </script>
 </body>
 </html>
