@@ -33,3 +33,34 @@
     </div>
 </body>
 </html>
+<div class="music-btn" onclick="toggleMusic()" style="margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid #38bdf8;">
+    <i id="music-icon" class="fa-solid fa-compact-disc"></i>
+    <span id="music-text">Bật Nhạc</span>
+</div>
+
+<audio id="myAudio" loop>
+    <source src="nhac.mp3.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    var song = document.getElementById("myAudio");
+    var icon = document.getElementById("music-icon");
+    var text = document.getElementById("music-text");
+    
+    // Thêm hiệu ứng xoay cho đĩa nhạc
+    const style = document.createElement('style');
+    style.innerHTML = `@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } } .playing { animation: spin 2s linear infinite; }`;
+    document.head.appendChild(style);
+
+    function toggleMusic() {
+        if (song.paused) { 
+            song.play(); 
+            text.innerHTML = "Đang Phát"; 
+            icon.classList.add("playing"); 
+        } else { 
+            song.pause(); 
+            text.innerHTML = "Tạm Dừng"; 
+            icon.classList.remove("playing"); 
+        }
+    }
+</script>
