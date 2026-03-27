@@ -130,6 +130,22 @@
             setTimeout(() => flake.remove(), duration * 1000);
         }
         setInterval(createSnowflake, 300);
-    </script>
+    </script>function updateClock() {
+            const now = new Date();
+            
+            // Lấy giờ, phút, giây
+            let h = now.getHours().toString().padStart(2, '0');
+            let m = now.getMinutes().toString().padStart(2, '0');
+            let s = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById("digital-clock").innerHTML = `${h}:${m}:${s}`;
+            
+            // Lấy ngày tháng năm (Tiếng Việt)
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById("date-display").innerHTML = now.toLocaleDateString('vi-VN', options);
+        }
+        
+        // Chạy đồng hồ ngay lập tức và cập nhật mỗi giây
+        updateClock();
+        setInterval(updateClock, 1000);
 </body>
 </html>
