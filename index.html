@@ -20,12 +20,18 @@
             border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; 
             text-align: center; z-index: 10; position: relative;
         }
-        .avatar { width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; font-weight: bold; box-shadow: 0 0 20px var(--primary); }
+        /* Style cho Ảnh đại diện */
+        .avatar { 
+            width: 90px; height: 90px; object-fit: cover; border-radius: 50%; 
+            margin: 0 auto 20px; display: block; border: 3px solid var(--primary); 
+            box-shadow: 0 0 15px var(--primary); 
+        }
         .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .link-card { background: rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; }
-        .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); }
-        .link-card i { margin-right: 12px; color: var(--primary); }
+        .link-card { background: rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid transparent; }
+        .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); border-color: var(--primary); }
+        .link-card i { margin-right: 12px; color: var(--primary); font-size: 1.2rem; }
 
+        /* Nút nhạc & Sóng */
         .music-btn {
             margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
             padding: 10px 25px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary);
@@ -33,37 +39,28 @@
         .playing { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* BONG BÓNG SIÊU RÕ */
+        #wave { display: none; justify-content: center; align-items: flex-end; gap: 3px; height: 20px; margin-top: 15px; }
+        .bar { width: 3px; background: var(--primary); animation: bounce 1s ease-in-out infinite; }
+        @keyframes bounce { 0%, 100% { height: 5px; } 50% { height: 20px; } }
+
+        /* Bong bóng bay */
         .bubble {
-            position: fixed;
-            bottom: -100px;
-            background: rgba(56, 189, 248, 0.3);
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1; 
-            animation: floatUp linear forwards;
+            position: fixed; bottom: -100px; background: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); border-radius: 50%;
+            pointer-events: none; z-index: 1; animation: floatUp linear forwards;
         }
         @keyframes floatUp {
             0% { transform: translateY(0) scale(0.5); opacity: 0; }
             20% { opacity: 0.8; }
             100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
         }
-    </style>.avatar { 
-    width: 90px; 
-    height: 90px; 
-    object-fit: cover; /* Giúp ảnh không bị móm/méo */
-    border-radius: 50%; 
-    margin: 0 auto 20px; 
-    display: block; 
-    border: 3px solid var(--primary); 
-    box-shadow: 0 0 15px var(--primary); 
-}
+    </style>
 </head>
 <body onclick="startApp()">
 
     <div class="container">
-        <div class="avatar">TT</div><img src="avatar.jpg" class="avatar" alt="Avatar">
+        <img src="avatar.jpg" class="avatar" alt="Avatar">
+        
         <h1>Trọng Trường</h1>
         <p>Kết nối xu hướng - Lan tỏa đam mê</p>
 
@@ -77,39 +74,43 @@
             <span id="music-text">Bật Nhạc</span>
         </div>
 
+        <div id="wave">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+
         <audio id="myAudio" loop>
             <source src="nhac.mp3.mp3" type="audio/mpeg">
         </audio>
 
-        <footer style="margin-top:20px; font-size:10px; opacity:0.5;">&copy; 2026 hoanganh17211-ux</footer>
+        <footer style="margin-top:20px; font-size:10px; opacity:0.3;">&copy; 2026 hoanganh17211-ux</footer>
     </div>
 
     <script>
         var song = document.getElementById("myAudio");
         var icon = document.getElementById("music-icon");
         var text = document.getElementById("music-text");
+        var wave = document.getElementById("wave");
         var hasClicked = false;
 
         function startApp() {
-            if (!hasClicked) {
-                toggleMusic();
-                hasClicked = true;
-            }
+            if (!hasClicked) { toggleMusic(); hasClicked = true; }
         }
 
         function toggleMusic() {
             if (song.paused) {
-                song.play();
-                text.innerHTML = "Đang Phát";
-                icon.classList.add("playing");
+                song.play().then(() => {
+                    text.innerHTML = "Đang Phát";
+                    icon.classList.add("playing");
+                    wave.style.display = "flex";
+                }).catch(e => { console.log(e); });
             } else {
                 song.pause();
                 text.innerHTML = "Tạm Dừng";
                 icon.classList.remove("playing");
+                wave.style.display = "none";
             }
         }
 
-        // TẠO BONG BÓNG
         function createBubble() {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
@@ -117,14 +118,12 @@
             bubble.style.width = size;
             bubble.style.height = size;
             bubble.style.left = Math.random() * 100 + 'vw';
-            const duration = Math.random() * 4 + 4; // Bay nhanh hơn để dễ thấy
+            const duration = Math.random() * 4 + 6;
             bubble.style.animationDuration = duration + 's';
             document.body.appendChild(bubble);
             setTimeout(() => { bubble.remove(); }, duration * 1000);
         }
-
-        // Tạo bong bóng dày đặc hơn (mỗi 0.5 giây)
-        setInterval(createBubble, 500);
+        setInterval(createBubble, 600);
     </script>
 </body>
 </html>
