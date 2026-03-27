@@ -9,145 +9,87 @@
     <style>
         :root { --bg-color: #0f172a; --accent-color: #38bdf8; --text-color: #f8fafc; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: radial-gradient(circle at top right, #1e293b, #0f172a); color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; }
-        .container { width: 100%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; text-align: center; position: relative; z-index: 10; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #0f172a);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow: hidden; 
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        
+        .container { width: 100%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 24px; padding: 40px 20px; text-align: center; position: relative; z-index: 10; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .logo { width: 100px; height: 100px; background: linear-gradient(135deg, #38bdf8, #818cf8); border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 2rem; font-weight: bold; }
         .links { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
         .link-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
         .link-card:hover { transform: translateY(-3px); border-color: var(--accent-color); background: rgba(255, 255, 255, 0.1); }
-        .music-btn { 
-            margin-top: 25px; 
-            cursor: pointer; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 10px; 
-            padding: 10px 20px; 
-            background: rgba(56, 189, 248, 0.2); 
-            border-radius: 50px; 
-            /* Hiệu ứng viền đổi màu (RGB) */
-            border: 2px solid;
-            border-image: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3) 1;
-            animation: rgbBG 5s linear infinite;
-            transition: 0.3s; 
-            position: relative; 
-        }
-
-        /* Hiệu ứng hover (khi di chuột vào) */
-        .music-btn:hover {
-            transform: scale(1.05); /* Phóng to nhẹ */
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5); /* Thêm bóng đổ phát sáng */
-        }
-
-        /* Hiệu ứng đổi màu viền mượt mà */
-        @keyframes rgbBG {
-            0% { border-image-source: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); }
-            50% { border-image-source: linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); }
-            100% { border-image-source: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); }
-        }
         
-        /* Hiệu ứng đĩa quay */
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* Nút bấm RGB */
+        .music-btn { margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 2px solid; border-image: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3) 1; animation: rgbBG 5s linear infinite; transition: 0.3s; position: relative; }
+        @keyframes rgbBG { 0%, 100% { border-image-source: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff); } 50% { border-image-source: linear-gradient(135deg, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000); } }
         .playing { animation: spin 2s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Hiệu ứng trái tim bay */
-        .heart {
-            position: fixed;
-            color: #ff4d6d;
-            font-size: 20px;
-            pointer-events: none;
-            z-index: 9999;
-            animation: flyUp 2s linear forwards;
-        }
-        @keyframes flyUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-150px) scale(1.5); opacity: 0; }
-        }
-    </style>/* Hiệu ứng hạt rơi (tuyết/tim) */
-        .snowflake {
-            position: fixed;
-            top: -10px;
-            color: rgba(255, 255, 255, 0.8); /* Màu trắng cho tuyết */
-            font-size: 1em;
-            user-select: none;
-            z-index: 1;
-            pointer-events: none;
-            animation: fall linear forwards;
-        }
-
-        @keyframes fall {
-            to {
-                transform: translateY(105vh) rotate(360deg);
-            }
-        }
+        /* Hiệu ứng hạt rơi */
+        .snowflake, .heart { position: fixed; pointer-events: none; z-index: 1; animation: fall linear forwards; }
+        .snowflake { top: -10px; color: rgba(255, 255, 255, 0.7); }
+        .heart { color: #ff4d6d; z-index: 999; }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">GZ</div>
         <h1>Tuổi Trẻ Gen Z</h1>
-        <p>Kết nối xu hướng - Lan tỏa đam mê</p>
         <div class="links">
             <a href="https://www.tiktok.com/@_012di07tuoi09_" class="link-card"><i class="fa-brands fa-tiktok"></i> TikTok</a>
             <a href="https://www.facebook.com/Truong12072009" class="link-card"><i class="fa-brands fa-facebook"></i> Facebook</a>
         </div>
-        <div class="music-btn" id="btn-music" onclick="toggleMusic()">
+        <div class="music-btn" onclick="toggleMusic()">
             <i id="music-icon" class="fa-solid fa-compact-disc"></i>
             <span id="music-text">Bật Nhạc</span>
         </div>
-        <audio id="myAudio" loop><source src="nhac.mp3.mp3" type="audio/mpeg">
+        <audio id="myAudio" loop><source src="nhac.mp3.mp3" type="audio/mpeg"></audio>
         <footer style="margin-top: 30px; font-size: 0.7rem; color: #64748b;">&copy; 2026 hoanganh17211-ux</footer>
     </div>
-<script>
-    var song = document.getElementById("myAudio");
-    var icon = document.getElementById("music-icon");
-    var text = document.getElementById("music-text");
-    var heartInterval;
 
-    function toggleMusic() {
-        if (song.paused) { 
-            song.play(); 
-            text.innerHTML = "Đang Phát"; 
-            icon.classList.add("playing");
-            // Tự động tạo tim mỗi 0.5 giây
-            heartInterval = setInterval(createHeart, 500);
-        } else { 
-            song.pause(); 
-            text.innerHTML = "Tạm Dừng"; 
-            icon.classList.remove("playing"); 
-            // Dừng tạo tim
-            clearInterval(heartInterval);
+    <script>
+        var song = document.getElementById("myAudio");
+        var icon = document.getElementById("music-icon");
+        var text = document.getElementById("music-text");
+        var heartInterval;
+
+        function toggleMusic() {
+            if (song.paused) { 
+                song.play(); text.innerHTML = "Đang Phát"; icon.classList.add("playing");
+                heartInterval = setInterval(createHeart, 500);
+            } else { 
+                song.pause(); text.innerHTML = "Tạm Dừng"; icon.classList.remove("playing");
+                clearInterval(heartInterval);
+            }
         }
-    }
 
-    function createHeart() {
-        const heart = document.createElement('i');
-        heart.className = 'fa-solid fa-heart heart';
-        heart.style.left = (Math.random() * 60 + 20) + '%'; 
-        heart.style.bottom = '20%'; 
-        document.body.appendChild(heart);
-        
-        setTimeout(() => {
-            heart.remove();
-        }, 2000);
-    }
-</script>
-// Hàm tạo hạt rơi toàn màn hình
+        function createHeart() {
+            const heart = document.createElement('i');
+            heart.className = 'fa-solid fa-heart heart';
+            heart.style.left = (Math.random() * 60 + 20) + '%';
+            heart.style.bottom = '20%';
+            heart.style.animationDuration = '2s';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 2000);
+        }
+
         function createSnowflake() {
             const flake = document.createElement('i');
-            // Bạn có thể thay 'fa-snowflake' thành 'fa-heart' nếu muốn rơi trái tim
-            flake.className = 'fa-solid fa-snowflake snowflake'; 
+            flake.className = 'fa-solid fa-snowflake snowflake';
             flake.style.left = Math.random() * 100 + 'vw';
-            flake.style.opacity = Math.random();
             flake.style.fontSize = Math.random() * 10 + 10 + 'px';
-            
-            const duration = Math.random() * 3 + 2; // Rơi trong 2-5 giây
+            const duration = Math.random() * 3 + 4;
             flake.style.animationDuration = duration + 's';
-            
             document.body.appendChild(flake);
-            
-            setTimeout(() => {
-                flake.remove();
-            }, duration * 1000);
+            setTimeout(() => flake.remove(), duration * 1000);
         }
-
-        // Tạo hạt rơi liên tục mỗi 200ms
-        setInterval(createSnowflake, 200);
+        setInterval(createSnowflake, 300);
+    </script>
+</body>
+</html>
