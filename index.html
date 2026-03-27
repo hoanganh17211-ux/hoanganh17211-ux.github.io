@@ -11,97 +11,133 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; 
+            background: var(--bg); color: white; display: flex; justify-content: center; align-items: center; 
             min-height: 100vh; overflow: hidden; position: relative; user-select: none;
+            transition: background 0.5s ease;
         }
+        /* Hiệu ứng nền khi có nhạc */
+        body.music-active {
+            background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
+            animation: pulseBg 3s infinite alternate;
+        }
+        @keyframes pulseBg {
+            0% { background-color: #0f172a; }
+            100% { background-color: #1e1b4b; }
+        }
+
         .container {
             width: 95%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 30px; padding: 25px 20px; 
             text-align: center; z-index: 10; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 0 15px; font-family: monospace; font-size: 0.85rem; color: var(--primary); }
-        #clock { font-size: 2rem; font-weight: bold; color: var(--primary); text-shadow: 0 0 20px var(--primary); margin-bottom: 15px; letter-spacing: 2px; font-family: 'Courier New', monospace; }
+        #clock { font-size: 2.2rem; font-weight: bold; color: var(--primary); text-shadow: 0 0 20px var(--primary); margin-bottom: 15px; font-family: 'Courier New', monospace; }
+        .avatar { width: 110px; height: 110px; object-fit: cover; border-radius: 50%; margin: 0 auto 15px; display: block; border: 3px solid var(--primary); box-shadow: 0 0 25px var(--primary); transition: 0.5s; }
+        .avatar.playing { transform: scale(1.1); border-color: #ff4d6d; box-shadow: 0 0 30px #ff4d6d; }
 
-        .avatar { width: 105px; height: 105px; object-fit: cover; border-radius: 50%; margin: 0 auto 15px; display: block; border: 3px solid var(--primary); box-shadow: 0 0 25px var(--primary); }
-
-        h1 { background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #38bdf8); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientText 3s linear infinite; font-size: 1.8rem; margin-bottom: 5px; }
+        h1 { background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #38bdf8); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientText 3s linear infinite; font-size: 1.8rem; }
         @keyframes gradientText { to { background-position: 200% center; } }
 
         .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .link-card { background: rgba(255, 255, 255, 0.08); padding: 14px; border-radius: 15px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 5px 15px rgba(56, 189, 248, 0.2); }
-        .link-card i { margin-right: 15px; font-size: 1.3rem; width: 25px; text-align: center; }
+        .link-card { background: rgba(255, 255, 255, 0.08); padding: 14px; border-radius: 15px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid rgba(255, 255, 255, 0.1); font-weight: 500; }
+        .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateX(10px); border-color: var(--primary); }
+        .link-card i { margin-right: 15px; font-size: 1.4rem; width: 25px; }
         
-        .fa-tiktok { color: #ff0050; }
+        .fa-tiktok { color: #ffffff; }
         .fa-facebook { color: #1877f2; }
-        .fa-facebook-messenger { color: var(--messenger); }
+        .fa-facebook-messenger { color: #00b2ff; }
 
         .music-btn { margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px; background: rgba(56, 189, 248, 0.15); border-radius: 50px; border: 1px solid var(--primary); transition: 0.3s; }
-        .music-btn:active { transform: scale(0.95); }
-        .playing { animation: spin 2s linear infinite; }
+        .music-btn.active { background: #ff4d6d; border-color: #ff4d6d; color: white; box-shadow: 0 0 20px rgba(255, 77, 109, 0.4); }
+        .spin { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         .bubble { position: fixed; bottom: -100px; background: rgba(56, 189, 248, 0.2); border-radius: 50%; pointer-events: none; z-index: 1; animation: floatUp linear forwards; }
-        @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 20% { opacity: 0.8; } 100% { transform: translateY(-120vh) scale(1.2); opacity: 0; } }
+        @keyframes floatUp { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 100% { transform: translateY(-120vh) scale(1.2); opacity: 0; } }
         .heart { position: fixed; color: var(--heart-color); font-size: 22px; pointer-events: none; z-index: 999; animation: heartFly 1s ease-out forwards; }
         @keyframes heartFly { 0% { transform: translate(0, 0) scale(1); opacity: 1; } 100% { transform: translate(0, -120px) scale(1.6); opacity: 0; } }
     </style>
 </head>
 <body onclick="createHeart(event)">
 
+    <audio id="myAudio" loop>
+        <source src="https://files.catbox.moe/9wa670.mp3" type="audio/mpeg">
+    </audio>
+
     <div class="container">
-        <div class="status-bar">
-            <span>LTE</span>
-            <span>100%</span>
-        </div>
-        
         <div id="clock">00:00:00</div>
 
-        <img src="https://via.placeholder.com/150" alt="Avatar" class="avatar">
+        <img src="https://via.placeholder.com/150" alt="Avatar" class="avatar" id="avatarImg">
         
         <h1>Trọng Trường</h1>
-        <p style="font-size: 0.9rem; color: #94a3b8;">Học sinh lớp 9 | Web Developer</p>
+        <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 5px;">Học sinh lớp 9 | Developer 🇻🇳</p>
 
         <div class="links">
-            <a href="#" class="link-card"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="#" class="link-card"><i class="fab fa-facebook-messenger"></i> Messenger</a>
-            <a href="#" class="link-card"><i class="fab fa-tiktok"></i> TikTok</a>
+            <a href="https://www.facebook.com/hoanganh17211" target="_blank" class="link-card">
+                <i class="fab fa-facebook"></i> Facebook Cá Nhân
+            </a>
+            <a href="https://m.me/hoanganh17211" target="_blank" class="link-card">
+                <i class="fab fa-facebook-messenger"></i> Nhắn tin cho mình
+            </a>
+            <a href="https://www.tiktok.com/@_012di07tuoi09_" target="_blank" class="link-card">
+                <i class="fab fa-tiktok"></i> Ghé thăm TikTok
+            </a>
         </div>
 
-        <div class="music-btn" onclick="toggleMusic()">
-            <i class="fas fa-compact-disc" id="music-icon"></i>
-            <span>Âm nhạc</span>
+        <div class="music-btn" id="musicBtn" onclick="toggleMusic(event)">
+            <i class="fas fa-compact-disc" id="musicIcon"></i>
+            <span id="musicText">Phát Nhạc Chill</span>
         </div>
     </div>
 
     <script>
-        // Cập nhật đồng hồ
+        // Đồng hồ
         function updateClock() {
             const now = new Date();
-            const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
-                            now.getMinutes().toString().padStart(2, '0') + ":" + 
-                            now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('clock').innerText = timeStr;
+            document.getElementById('clock').innerText = now.toLocaleTimeString('vi-VN');
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+        setInterval(updateClock, 1000); updateClock();
 
-        // Tạo bong bóng bay
-        function createBubble() {
+        // Xử lý nhạc
+        const audio = document.getElementById("myAudio");
+        const musicBtn = document.getElementById("musicBtn");
+        const musicIcon = document.getElementById("musicIcon");
+        const avatar = document.getElementById("avatarImg");
+        let isPlaying = false;
+
+        function toggleMusic(e) {
+            e.stopPropagation(); // Không cho nổ tim khi bấm nút nhạc
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.classList.remove('spin');
+                musicBtn.classList.remove('active');
+                avatar.classList.remove('playing');
+                document.body.classList.remove('music-active');
+                document.getElementById('musicText').innerText = "Phát Nhạc Chill";
+            } else {
+                audio.play();
+                musicIcon.classList.add('spin');
+                musicBtn.classList.add('active');
+                avatar.classList.add('playing');
+                document.body.classList.add('music-active');
+                document.getElementById('musicText').innerText = "Đang Phát...";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Bong bóng nền
+        setInterval(() => {
             const b = document.createElement('div');
             b.className = 'bubble';
-            const size = Math.random() * 40 + 10 + 'px';
-            b.style.width = size;
-            b.style.height = size;
+            const size = Math.random() * 30 + 10 + 'px';
+            b.style.width = size; b.style.height = size;
             b.style.left = Math.random() * 100 + 'vw';
             b.style.animationDuration = Math.random() * 3 + 4 + 's';
             document.body.appendChild(b);
-            setTimeout(() => b.remove(), 7000);
-        }
-        setInterval(createBubble, 500);
+            setTimeout(() => b.remove(), 6000);
+        }, 600);
 
-        // Hiệu ứng tim khi click
+        // Hiệu ứng tim
         function createHeart(e) {
             const h = document.createElement('i');
             h.className = 'fas fa-heart heart';
@@ -109,11 +145,6 @@
             h.style.top = e.clientY - 10 + 'px';
             document.body.appendChild(h);
             setTimeout(() => h.remove(), 1000);
-        }
-
-        function toggleMusic() {
-            const icon = document.getElementById('music-icon');
-            icon.classList.toggle('playing');
         }
     </script>
 </body>
