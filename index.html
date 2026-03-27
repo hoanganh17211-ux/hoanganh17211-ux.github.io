@@ -6,120 +6,33 @@
     <title>Tuổi Trẻ Gen Z | Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>#clock-container {
-            margin-bottom: 20px;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-        }
-        #digital-clock {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--accent-color);
-            text-shadow: 0 0 10px var(--accent-color);
-            letter-spacing: 2px;
-        }
-        #date-display {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            margin-top: 5px;
-        }
+    <style>
         :root { --bg-color: #0f172a; --accent-color: #38bdf8; --text-color: #f8fafc; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #0f172a);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
-            color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow: hidden; 
-        }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        
-        .container { width: 100%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 24px; padding: 40px 20px; text-align: center; position: relative; z-index: 10; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        body { font-family: 'Inter', sans-serif; background: radial-gradient(circle at top right, #1e293b, #0f172a); color: var(--text-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; overflow-x: hidden; }
+        .container { width: 100%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; text-align: center; position: relative; z-index: 10; }
         .logo { width: 100px; height: 100px; background: linear-gradient(135deg, #38bdf8, #818cf8); border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 2rem; font-weight: bold; }
         .links { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
         .link-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
         .link-card:hover { transform: translateY(-3px); border-color: var(--accent-color); background: rgba(255, 255, 255, 0.1); }
-        
-        /* Nút bấm RGB */
-        .music-btn { margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 2px solid; border-image: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3) 1; animation: rgbBG 5s linear infinite; transition: 0.3s; position: relative; }
-        @keyframes rgbBG { 0%, 100% { border-image-source: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff); } 50% { border-image-source: linear-gradient(135deg, #00ff00, #0000ff, #4b0082, #9400d3, #ff0000); } }
-        .playing { animation: spin 2s linear infinite; }
+        .music-btn { margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--accent-color); transition: 0.3s; position: relative; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* Hiệu ứng hạt rơi */
-        .snowflake, .heart { position: fixed; pointer-events: none; z-index: 1; animation: fall linear forwards; }
-        .snowflake { top: -10px; color: rgba(255, 255, 255, 0.7); }
-        .heart { color: #ff4d6d; z-index: 999; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-    </style></* Hiệu ứng bóng nước */
-        .bubble {
-            position: fixed;
-            bottom: -50px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1;
-            animation: floatUp linear forwards;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            20% { opacity: 0.5; }
-            100% { transform: translateY(-110vh) translateX(50px); opacity: 0; }
-        }.marquee-container {
-            width: 100%;
-            overflow: hidden;
-            background: rgba(56, 189, 248, 0.1);
-            border-radius: 10px;
-            margin-top: 20px;
-            padding: 5px 0;
-            white-space: nowrap;
-        }
-
-        .marquee-text {
-            display: inline-block;
-            font-size: 0.9rem;
-            color: var(--accent-color);
-            text-shadow: 0 0 5px var(--accent-color);
-            animation: marquee 15s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }/* Hiệu ứng rung rinh khi di chuột vào nút */
-        .link-card:hover {
-            animation: shake 0.5s ease-in-out infinite;
-            border-color: #ff0077; /* Đổi viền sang màu hồng khi di chuột */
-            box-shadow: 0 0 20px rgba(255, 0, 119, 0.5);
-        }
-
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
-        }
+        .playing { animation: spin 2s linear infinite; }
+        /* CSS Trái tim */
+        .heart { position: fixed; color: #ff4d6d; font-size: 20px; pointer-events: none; z-index: 999; animation: flyUp 2s linear forwards; }
+        @keyframes flyUp { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-150px) scale(1.5); opacity: 0; } }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">GZ</div>
         <h1>Tuổi Trẻ Gen Z</h1>
+        <p>Kết nối xu hướng - Lan tỏa đam mê</p>
         <div class="links">
             <a href="https://www.tiktok.com/@_012di07tuoi09_" class="link-card"><i class="fa-brands fa-tiktok"></i> TikTok</a>
             <a href="https://www.facebook.com/Truong12072009" class="link-card"><i class="fa-brands fa-facebook"></i> Facebook</a>
         </div>
-        <div class="music-btn" onclick="toggleMusic()">
+        <div class="music-btn" id="btn-music" onclick="toggleMusic()">
             <i id="music-icon" class="fa-solid fa-compact-disc"></i>
             <span id="music-text">Bật Nhạc</span>
         </div>
@@ -127,73 +40,37 @@
         <footer style="margin-top: 30px; font-size: 0.7rem; color: #64748b;">&copy; 2026 hoanganh17211-ux</footer>
     </div>
 
-    <script>function createBubble() {
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble';
-            
-            // Kích thước ngẫu nhiên từ 10px đến 40px
-            const size = Math.random() * 30 + 10 + 'px';
-            bubble.style.width = size;
-            bubble.style.height = size;
-            
-            // Vị trí ngang ngẫu nhiên
-            bubble.style.left = Math.random() * 100 + 'vw';
-            
-            // Tốc độ bay ngẫu nhiên
-            const duration = Math.random() * 5 + 5;
-            bubble.style.animationDuration = duration + 's';
-            
-            document.body.appendChild(bubble);
-            
-            // Xóa bóng sau khi bay xong
-            setTimeout(() => {
-                bubble.remove();
-            }, duration * 1000);
-        }
-
-        // Tạo bong bóng mỗi 1 giây
-        setInterval(createBubble, 1000);
+    <script>
         var song = document.getElementById("myAudio");
         var icon = document.getElementById("music-icon");
         var text = document.getElementById("music-text");
-        var heartInterval;
-<div id="clock-container"><div class="marquee-container">
-    <div class="marquee-text">
-        Chào mừng bạn đến với Profile của trường! 🚀 Chúc bạn một ngày tốt lành và tràn đầy năng lượng! ✨
-    </div>
-</div>
-    <div id="digital-clock">00:00:00</div>
-    <div id="date-display">Thứ Sáu, 27 Tháng 3, 2026</div>
-</div>
+        var btn = document.getElementById("btn-music");
+
         function toggleMusic() {
             if (song.paused) { 
-                song.play(); text.innerHTML = "Đang Phát"; icon.classList.add("playing");
-                heartInterval = setInterval(createHeart, 500);
+                song.play(); 
+                text.innerHTML = "Đang Phát"; 
+                icon.classList.add("playing");
+                // Tạo hiệu ứng trái tim
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(createHeart, i * 150);
+                }
             } else { 
-                song.pause(); text.innerHTML = "Tạm Dừng"; icon.classList.remove("playing");
-                clearInterval(heartInterval);
+                song.pause(); 
+                text.innerHTML = "Tạm Dừng"; 
+                icon.classList.remove("playing"); 
             }
         }
 
         function createHeart() {
             const heart = document.createElement('i');
             heart.className = 'fa-solid fa-heart heart';
-            heart.style.left = (Math.random() * 60 + 20) + '%';
-            heart.style.bottom = '20%';
-            heart.style.animationDuration = '2s';
+            const rect = btn.getBoundingClientRect();
+            heart.style.left = (rect.left + rect.width / 2 + (Math.random() * 60 - 30)) + 'px';
+            heart.style.top = rect.top + 'px';
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 2000);
         }
-
-        function createSnowflake() {
-            const flake = document.createElement('i');
-            flake.className = 'fa-solid fa-snowflake snowflake';
-            flake.style.left = Math.random() * 100 + 'vw';
-            flake.style.fontSize = Math.random() * 10 + 10 + 'px';
-            const duration = Math.random() * 3 + 4;
-            flake.style.animationDuration = duration + 's';
-            document.body.appendChild(flake);
-            setTimeout(() => flake.remove(), duration * 1000);
-        }
-        setInterval(createSnowflake, 300);
     </script>
+</body>
+</html>
