@@ -3,119 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trọng Trường | Profile LED</title>
+    <title>Trọng Trường | LED Profile</title>
     <link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #38bdf8; --led-color: #00f2ff; }
+        :root { --led: #00f2ff; --bg: #050505; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #050505; color: white; display: flex; justify-content: center; align-items: center; 
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg); color: white;
+            display: flex; justify-content: center; align-items: center; 
             min-height: 100vh; overflow: hidden;
         }
 
         .container {
-            width: 90%; max-width: 380px; background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(15px);
-            border: 2px solid rgba(56, 189, 248, 0.3); border-radius: 35px; padding: 30px 20px; 
-            text-align: center; box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
+            width: 90%; max-width: 380px; background: rgba(20, 20, 20, 0.9);
+            border: 2px solid var(--led); border-radius: 40px; padding: 35px 20px;
+            text-align: center; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
         }
 
-        /* ĐỒNG HỒ LED CỰC CHẤT */
-        #clock { 
-            font-family: 'Digital-7 Mono', sans-serif; 
-            font-size: 3.5rem; 
-            color: var(--led-color); 
-            text-shadow: 0 0 10px var(--led-color), 0 0 20px var(--led-color);
-            margin-bottom: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 10px;
-            border-radius: 15px;
-            display: inline-block;
-            min-width: 220px;
+        /* ĐỒNG HỒ LED PHÁT SÁNG */
+        #clock {
+            font-family: 'Digital-7 Mono', sans-serif;
+            font-size: 3.8rem; color: var(--led);
+            text-shadow: 0 0 10px var(--led), 0 0 20px var(--led);
+            background: #000; padding: 15px; border-radius: 20px;
+            margin-bottom: 25px; border: 1px solid rgba(0, 242, 255, 0.3);
         }
 
-        .avatar { width: 110px; height: 110px; object-fit: cover; border-radius: 50%; margin: 0 auto 15px; display: block; border: 3px solid var(--primary); transition: 0.5s; object-position: top; }
-        .avatar.rotating { animation: rotate 5s linear infinite; box-shadow: 0 0 30px var(--primary); }
+        .avatar {
+            width: 120px; height: 120px; object-fit: cover; border-radius: 50%;
+            margin: 0 auto 15px; display: block; border: 3px solid white;
+            transition: 0.5s; object-position: top;
+        }
+        .avatar.rotating { animation: rotate 4s linear infinite; border-color: var(--led); box-shadow: 0 0 20px var(--led); }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        
-        h1 { font-size: 1.6rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; color: #fff; }
 
-        .marquee { width: 100%; overflow: hidden; white-space: nowrap; margin: 15px 0; color: #a78bfa; font-weight: bold; background: rgba(255,255,255,0.05); padding: 5px 0; }
-        .marquee span { display: inline-block; animation: scroll 10s linear infinite; }
+        h1 { font-size: 1.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+
+        .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: rgba(255,255,255,0.05); padding: 8px 0; margin: 15px 0; }
+        .marquee span { display: inline-block; animation: scroll 15s linear infinite; color: #a78bfa; font-weight: bold; }
         @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .link-card { background: rgba(255, 255, 255, 0.05); padding: 14px; border-radius: 15px; text-decoration: none; color: white; display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
-        .link-card:hover { background: var(--primary); color: #000; }
-        .link-card i { margin-right: 15px; font-size: 1.4rem; }
-        
-        .music-btn { 
-            margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; 
-            padding: 15px 40px; background: transparent; border-radius: 50px; border: 2px solid var(--led-color);
-            font-weight: bold; color: var(--led-color); font-size: 1rem; text-shadow: 0 0 5px var(--led-color);
-            transition: 0.3s;
+        .links { display: flex; flex-direction: column; gap: 15px; }
+        .link-card {
+            background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 20px;
+            text-decoration: none; color: white; display: flex; align-items: center;
+            border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
         }
-        .music-btn.active { background: var(--led-color); color: #000; box-shadow: 0 0 20px var(--led-color); }
+        .link-card:hover { background: var(--led); color: #000; font-weight: bold; transform: scale(1.05); }
+        .link-card i { margin-right: 15px; font-size: 1.5rem; width: 30px; }
+
+        .btn-play {
+            margin-top: 30px; cursor: pointer; padding: 15px 45px;
+            background: transparent; border: 2px solid var(--led); border-radius: 50px;
+            color: var(--led); font-weight: bold; text-transform: uppercase;
+            box-shadow: 0 0 10px var(--led); transition: 0.3s;
+        }
+        .btn-play.active { background: var(--led); color: #000; box-shadow: 0 0 25px var(--led); }
     </style>
 </head>
 <body>
 
     <audio id="myAudio" loop>
-        <source src="https://dl.dropboxusercontent.com/scl/fi/v6p06o68v8z9k5h6s3u7y/gio_lofi.mp3?rlkey=v6p06o68v8z9k5h6s3u7y&dl=0" type="audio/mpeg">
+        <source src="https://dl.dropboxusercontent.com/scl/fi/v6p06o68v8z9k5h6s3u7y/gio_lofi.mp3?rlkey=v6p06o68v8z9k5h6s3u7y&dl=1" type="audio/mpeg">
     </audio>
 
     <div class="container">
         <div id="clock">00:00:00</div>
         
-        <img src="https://i.imgur.com/kS94P2r.png" alt="Avatar" class="avatar" id="avatar">
+        <img src="https://i.imgur.com/kS94P2r.png" alt="Avatar" class="avatar" id="avatarImg">
+        
         <h1>Trọng Trường</h1>
         
         <div class="marquee">
-            <span>🇻🇳 ĐỒNG HỒ LED - NHẠC TIKTOK VIỆT CỰC CHILL - TRỌNG TRƯỜNG PROFILE 🇻🇳</span>
+            <span>🇻🇳 PHONG CÁCH LED NEON - NHẠC TIKTOK VIỆT HOT 2026 - TRỌNG TRƯỜNG 🇻🇳</span>
         </div>
 
         <div class="links">
-            <a href="https://www.facebook.com/Truong12072009" target="_blank" class="link-card"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="https://www.tiktok.com/@_012di07tuoi09_" target="_blank" class="link-card"><i class="fab fa-tiktok"></i> TikTok</a>
+            <a href="https://www.facebook.com/Truong12072009" target="_blank" class="link-card">
+                <i class="fab fa-facebook" style="color:#1877f2"></i> Facebook
+            </a>
+            <a href="https://www.tiktok.com/@_012di07tuoi09_" target="_blank" class="link-card">
+                <i class="fab fa-tiktok"></i> TikTok
+            </a>
         </div>
 
-        <button class="music-btn" id="playBtn" onclick="toggleMusic()">BẬT LED & NHẠC</button>
+        <button class="btn-play" id="mainBtn">BẬT LED & NHẠC</button>
     </div>
 
     <script>
-        // Sửa lỗi hiển thị đồng hồ
-        function updateClock() {
+        // Cập nhật đồng hồ LED
+        function updateTime() {
             const now = new Date();
-            let h = now.getHours().toString().padStart(2, '0');
-            let m = now.getMinutes().toString().padStart(2, '0');
-            let s = now.getSeconds().toString().padStart(2, '0');
-            const timeString = h + ":" + m + ":" + s;
-            document.getElementById('clock').textContent = timeString;
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${h}:${m}:${s}`;
         }
-        // Gọi hàm ngay lập tức và lặp lại mỗi giây
-        setInterval(updateClock, 1000); 
-        updateClock();
+        setInterval(updateTime, 1000);
+        updateTime();
 
         const audio = document.getElementById("myAudio");
-        const btn = document.getElementById("playBtn");
-        const avatar = document.getElementById("avatar");
+        const btn = document.getElementById("mainBtn");
+        const img = document.getElementById("avatarImg");
         let isPlaying = false;
 
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                avatar.classList.remove('rotating');
-                btn.classList.remove('active');
-                btn.innerText = "BẬT LED & NHẠC";
+        btn.onclick = () => {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    btn.innerText = "ĐANG CHILL...";
+                    btn.classList.add('active');
+                    img.classList.add('rotating');
+                }).catch(() => alert("Bạn hãy nhấn lại lần nữa nhé!"));
             } else {
-                audio.play().catch(() => alert("Nhấn lại lần nữa để nghe nhạc Trường nhé!"));
-                avatar.classList.add('rotating');
-                btn.classList.add('active');
-                btn.innerText = "ĐANG CHILL...";
+                audio.pause();
+                isPlaying = false;
+                btn.innerText = "TIẾP TỤC PHÁT";
+                btn.classList.remove('active');
+                img.classList.remove('rotating');
             }
-            isPlaying = !isPlaying;
-        }
+        };
     </script>
 </body>
 </html>
