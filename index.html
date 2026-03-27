@@ -44,8 +44,10 @@
         .link-card i { margin-right: 15px; font-size: 1.4rem; width: 25px; }
         
         .fa-tiktok { color: #ffffff; }
-        .fa-facebook { color: #1877f2; }
-        .fa-facebook-messenger { color: #00b2ff; }
+        .fa-facebook { color: #1877f2; }https://www.facebook.com/Truong12072009
+
+        .fa-facebook-messenger { color: #00b2ff; }https://www.facebook.com/Truong12072009
+
 
         .music-btn { margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 12px 30px; background: rgba(56, 189, 248, 0.15); border-radius: 50px; border: 1px solid var(--primary); transition: 0.3s; }
         .music-btn.active { background: #ff4d6d; border-color: #ff4d6d; color: white; box-shadow: 0 0 20px rgba(255, 77, 109, 0.4); }
@@ -62,7 +64,46 @@
 
     <audio id="myAudio" loop>
         <source src="https://files.catbox.moe/9wa670.mp3" type="audio/mpeg">
-    </audio>
+    </audio><audio id="myAudio" loop preload="auto">
+    <source src="https://files.catbox.moe/m1z4v2.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const audio = document.getElementById("myAudio");
+    const musicBtn = document.getElementById("musicBtn");
+    const musicIcon = document.getElementById("musicIcon");
+    let isPlaying = false;
+
+    // Hàm xử lý bật/tắt nhạc
+    function toggleMusic(e) {
+        if (e) e.stopPropagation(); 
+        
+        if (isPlaying) {
+            audio.pause();
+            musicIcon.classList.remove('spin');
+            musicBtn.style.background = "rgba(56, 189, 248, 0.15)";
+            document.getElementById('musicText').innerText = "Phát Nhạc Chill";
+        } else {
+            // Quan trọng: Trình duyệt yêu cầu phải có tương tác mới cho phát nhạc
+            audio.play().then(() => {
+                musicIcon.classList.add('spin');
+                musicBtn.style.background = "#ff4d6d";
+                document.getElementById('musicText').innerText = "Đang Phát...";
+            }).catch(error => {
+                alert("Vui lòng chạm vào màn hình một lần nữa để nghe nhạc!");
+            });
+        }
+        isPlaying = !isPlaying;
+    }
+
+    // Tự động mồi nhạc khi người dùng chạm bất kỳ đâu lần đầu tiên
+    document.addEventListener('click', function() {
+        if (!isPlaying) {
+            // Chỉ chuẩn bị sẵn, chưa phát để tránh làm phiền
+            audio.load(); 
+        }
+    }, { once: true });
+</script>
 
     <div class="container">
         <div id="clock">00:00:00</div>
