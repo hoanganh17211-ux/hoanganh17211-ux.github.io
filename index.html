@@ -52,38 +52,38 @@
         <audio id="myAudio" loop><source src="nhac.mp3.mp3" type="audio/mpeg"></audio>
         <footer style="margin-top: 30px; font-size: 0.7rem; color: #64748b;">&copy; 2026 hoanganh17211-ux</footer>
     </div>
-
-    <script>
+<script>
         var song = document.getElementById("myAudio");
         var icon = document.getElementById("music-icon");
         var text = document.getElementById("music-text");
-        var btn = document.getElementById("btn-music");
+        var heartInterval;
 
         function toggleMusic() {
             if (song.paused) { 
                 song.play(); 
                 text.innerHTML = "Đang Phát"; 
                 icon.classList.add("playing");
-                // Tạo hiệu ứng trái tim
-                for (let i = 0; i < 10; i++) {
-                    setTimeout(createHeart, i * 150);
-                }
+                // Tự động tạo tim mỗi 0.5 giây
+                heartInterval = setInterval(createHeart, 500);
             } else { 
                 song.pause(); 
                 text.innerHTML = "Tạm Dừng"; 
                 icon.classList.remove("playing"); 
+                // Dừng tạo tim
+                clearInterval(heartInterval);
             }
         }
 
         function createHeart() {
             const heart = document.createElement('i');
             heart.className = 'fa-solid fa-heart heart';
-            const rect = btn.getBoundingClientRect();
-            heart.style.left = (rect.left + rect.width / 2 + (Math.random() * 60 - 30)) + 'px';
-            heart.style.top = rect.top + 'px';
+            heart.style.left = (Math.random() * 60 + 20) + '%'; 
+            heart.style.bottom = '20%'; // Sửa từ button thành bottom ở đây
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 2000);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
         }
     </script>
-</body>
-</html>
+   
