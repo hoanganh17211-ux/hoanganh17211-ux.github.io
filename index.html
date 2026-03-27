@@ -20,18 +20,19 @@
             border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; 
             text-align: center; z-index: 10; position: relative;
         }
-        /* Style cho Ảnh đại diện */
+        
+        /* CSS Ảnh đại diện chuẩn */
         .avatar { 
             width: 90px; height: 90px; object-fit: cover; border-radius: 50%; 
             margin: 0 auto 20px; display: block; border: 3px solid var(--primary); 
             box-shadow: 0 0 15px var(--primary); 
         }
+
         .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
         .link-card { background: rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid transparent; }
         .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); border-color: var(--primary); }
         .link-card i { margin-right: 12px; color: var(--primary); font-size: 1.2rem; }
 
-        /* Nút nhạc & Sóng */
         .music-btn {
             margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
             padding: 10px 25px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary);
@@ -43,7 +44,6 @@
         .bar { width: 3px; background: var(--primary); animation: bounce 1s ease-in-out infinite; }
         @keyframes bounce { 0%, 100% { height: 5px; } 50% { height: 20px; } }
 
-        /* Bong bóng bay */
         .bubble {
             position: fixed; bottom: -100px; background: rgba(56, 189, 248, 0.3);
             box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); border-radius: 50%;
