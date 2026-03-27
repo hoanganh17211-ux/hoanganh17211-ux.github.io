@@ -6,35 +6,28 @@
     <title>Hoàng Anh | Profile</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        :root { --primary: #38bdf8; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.05); }
+        :root { --primary: #38bdf8; --bg: #0f172a; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at top right, #1e293b, #0f172a);
-            color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden;
+            color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
         .container {
-            width: 100%; max-width: 400px; background: var(--glass); backdrop-filter: blur(10px);
+            width: 100%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; text-align: center;
         }
-        .avatar {
-            width: 100px; height: 100px; background: linear-gradient(45deg, var(--primary), #818cf8);
-            border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 2rem;
-        }
-        .links { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
-        .link-card {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s;
-        }
-        .link-card:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-3px); border-color: var(--primary); }
-        .link-card i { margin-right: 15px; font-size: 1.2rem; }
+        .avatar { width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; }
+        .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .link-card { background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 10px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid transparent; }
+        .link-card:hover { border-color: var(--primary); transform: scale(1.02); }
+        .link-card i { margin-right: 12px; }
 
         /* Nút nhạc */
         .music-btn {
             margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
-            padding: 10px 20px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary); transition: 0.3s;
+            padding: 10px 20px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary);
         }
         .playing { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -48,23 +41,20 @@
         <p>Kết nối xu hướng - Lan tỏa đam mê</p>
 
         <div class="links">
-            <a href="https://www.tiktok.com/@_012di07tuoi09_" class="link-card">
-                <i class="fa-brands fa-tiktok"></i> TikTok của mình
-            </a>
-            <a href="https://www.facebook.com/Truong12072009" class="link-card">
-                <i class="fa-brands fa-facebook"></i> Facebook chính chủ
-            </a>
+            <a href="https://www.tiktok.com/@_012di07tuoi09_" class="link-card"><i class="fa-brands fa-tiktok"></i> TikTok của mình</a>
+            <a href="https://www.facebook.com/Truong12072009" class="link-card"><i class="fa-brands fa-facebook"></i> Facebook chính chủ</a>
         </div>
 
         <div class="music-btn" onclick="toggleMusic()">
             <i id="music-icon" class="fa-solid fa-compact-disc"></i>
             <span id="music-text">Bật Nhạc</span>
         </div>
+
         <audio id="myAudio" loop>
             <source src="nhac.mp3.mp3" type="audio/mpeg">
         </audio>
 
-        <footer>&copy; 2026 hoanganh17211-ux</footer>
+        <footer style="margin-top:20px; font-size:10px; opacity:0.5;">&copy; 2026 hoanganh17211-ux</footer>
     </div>
 
     <script>
@@ -74,7 +64,7 @@
 
         function toggleMusic() {
             if (song.paused) {
-                song.play();
+                song.play().catch(e => console.log("Lỗi phát nhạc:", e));
                 text.innerHTML = "Đang Phát";
                 icon.classList.add("playing");
             } else {
