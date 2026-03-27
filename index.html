@@ -3,73 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hoàng Anh Profile</title>
+    <title>Hoàng Anh | LED Profile</title>
     <link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background: #000; color: #fff; text-align: center; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .box { width: 90%; max-width: 350px; border: 2px solid #00f2ff; border-radius: 30px; padding: 25px; box-shadow: 0 0 20px #00f2ff; }
+        :root { --led: #00f2ff; --bg: #050505; --pink: #ff00ea; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg); color: white;
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; overflow-x: hidden;
+        }
+        .container {
+            width: 90%; max-width: 380px; background: rgba(15, 15, 15, 0.98);
+            border: 2px solid var(--led); border-radius: 40px; padding: 30px 20px;
+            text-align: center; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+        }
+        /* ĐỒNG HỒ LED */
+        #clock {
+            font-family: 'Digital-7 Mono', sans-serif;
+            font-size: 4rem; color: var(--led);
+            text-shadow: 0 0 10px var(--led), 0 0 20px var(--led);
+            background: #000; padding: 15px; border-radius: 20px;
+            margin-bottom: 25px; border: 1px solid rgba(0, 242, 255, 0.3);
+        }
+        /* AVATAR XOAY */
+        .avatar {
+            width: 140px; height: 140px; object-fit: cover; border-radius: 50%;
+            margin: 0 auto 15px; display: block; border: 3px solid #fff;
+            transition: 0.5s;
+        }
+        .rotating { animation: rotate 5s linear infinite; border-color: var(--led); box-shadow: 0 0 20px var(--led); }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
-        /* Đồng hồ LED */
-        #clock { font-family: 'Digital-7 Mono', sans-serif; font-size: 3.5rem; color: #00f2ff; text-shadow: 0 0 10px #00f2ff; margin-bottom: 20px; }
-        
-        /* Avatar - Dùng link trực tiếp từ ảnh bạn đã upload */
-        .avatar { width: 130px; height: 130px; border-radius: 50%; border: 3px solid #fff; object-fit: cover; margin-bottom: 15px; }
-        .rotating { animation: xoay 5s linear infinite; }
-        @keyframes xoay { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        h1 { font-size: 1.8rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
 
-        h1 { font-size: 1.5rem; letter-spacing: 2px; }
+        /* CHỮ CHẠY LED */
+        .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: rgba(255,255,255,0.05); padding: 10px 0; margin-bottom: 25px; border-top: 1px solid var(--led); border-bottom: 1px solid var(--led); }
+        .marquee span { display: inline-block; animation: scroll 12s linear infinite; color: var(--pink); font-weight: bold; font-size: 1.1rem; text-shadow: 0 0 5px var(--pink); }
+        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* Chữ chạy */
-        .run-text { overflow: hidden; white-space: nowrap; background: #111; padding: 10px; margin: 15px 0; border: 1px solid #333; }
-        .run-text span { display: inline-block; animation: move 10s linear infinite; color: #ff00ea; font-weight: bold; }
-        @keyframes move { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        /* NÚT MẠNG XÃ HỘI */
+        .social-box { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        .btn-social {
+            text-decoration: none; color: white; padding: 15px; border-radius: 15px;
+            display: flex; align-items: center; justify-content: center; gap: 15px;
+            font-weight: bold; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+        }
+        .btn-social:hover { transform: translateY(-3px); background: rgba(255,255,255,0.1); border-color: var(--led); }
+        .btn-social i { font-size: 1.5rem; }
 
-        /* Nút bấm to, dễ chạm trên điện thoại */
-        .btn { background: #00f2ff; color: #000; border: none; padding: 15px; width: 100%; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+        /* NÚT PLAY */
+        .btn-play {
+            cursor: pointer; padding: 18px; width: 100%;
+            background: var(--led); border: none; border-radius: 50px;
+            color: #000; font-weight: 900; text-transform: uppercase;
+            font-size: 1.1rem; box-shadow: 0 0 20px var(--led); transition: 0.3s;
+        }
+        .btn-play.active { background: var(--pink); color: #fff; box-shadow: 0 0 25px var(--pink); }
     </style>
 </head>
 <body>
 
-    <audio id="nhac" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+    <audio id="myAudio" loop preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="box">
+    <div class="container">
         <div id="clock">00:00:00</div>
         
-        <img src="https://i.imgur.com/kS94P2r.png" class="avatar" id="avt">
+        <img src="https://i.imgur.com/kS94P2r.png" alt="Avatar" class="avatar" id="avatarImg">
         
         <h1>HOÀNG ANH</h1>
-
-        <div class="run-text">
-            <span>🚀 CHÀO MỪNG BẠN ĐẾN VỚI PROFILE CỦA HOÀNG ANH 🚀</span>
+        
+        <div class="marquee">
+            <span>🚀 CHÀO MỪNG ĐẾN VỚI PROFILE CỦA HOÀNG ANH - SƠN LA - WEB DEVELOPER 🚀</span>
         </div>
 
-        <button class="btn" onclick="play()">BẬT NHẠC NGAY 🎵</button>
+        <div class="social-box">
+            <a href="https://www.facebook.com/Truong12072009" target="_blank" class="btn-social">
+                <i class="fab fa-facebook" style="color: #1877f2;"></i> FACEBOOK
+            </a>
+            <a href="https://www.tiktok.com/@_012di07tuoi09_" target="_blank" class="btn-social">
+                <i class="fab fa-tiktok"></i> TIKTOK
+            </a>
+        </div>
+
+        <button class="btn-play" id="mainBtn">BẬT LED & NHẠC 🎵</button>
     </div>
 
     <script>
         // Chạy đồng hồ
-        function time() {
-            let d = new Date();
+        function update() {
+            const d = new Date();
             document.getElementById('clock').innerText = d.toLocaleTimeString('vi-VN', {hour12: false});
         }
-        setInterval(time, 1000); time();
+        setInterval(update, 1000); update();
 
-        // Xử lý nhạc
-        let a = document.getElementById("nhac");
-        let b = document.getElementById("avt");
-        function play() {
-            if (a.paused) {
-                a.play();
-                b.classList.add("rotating");
-                document.querySelector(".btn").innerText = "ĐANG PHÁT...";
+        const audio = document.getElementById("myAudio");
+        const btn = document.getElementById("mainBtn");
+        const img = document.getElementById("avatarImg");
+        let isPlaying = false;
+
+        btn.onclick = () => {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    btn.innerText = "ĐANG PHÁT...";
+                    btn.classList.add('active');
+                    img.classList.add('rotating');
+                }).catch(() => alert("Bạn hãy chạm lại nút một lần nữa để quẩy nhé!"));
             } else {
-                a.pause();
-                b.classList.remove("rotating");
-                document.querySelector(".btn").innerText = "TIẾP TỤC PHÁT";
+                audio.pause();
+                isPlaying = false;
+                btn.innerText = "TIẾP TỤC PHÁT";
+                btn.classList.remove('active');
+                img.classList.remove('rotating');
             }
-        }
+        };
     </script>
 </body>
 </html>
