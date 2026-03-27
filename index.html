@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trọng Trường | LED Profile</title>
+    <title>Trọng Trường | LED Profile Fix</title>
     <link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -36,28 +36,17 @@
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
         h1 { font-size: 1.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
-        .sub-text { color: #94a3b8; font-size: 0.9rem; margin-bottom: 15px; }
-
         .marquee { width: 100%; overflow: hidden; white-space: nowrap; background: rgba(255,255,255,0.05); padding: 8px 0; margin: 15px 0; }
         .marquee span { display: inline-block; animation: scroll 15s linear infinite; color: #a78bfa; font-weight: bold; }
         @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .links { display: flex; flex-direction: column; gap: 12px; }
-        .link-card {
-            background: rgba(255, 255, 255, 0.05); padding: 14px; border-radius: 15px;
-            text-decoration: none; color: white; display: flex; align-items: center;
-            border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
-        }
-        .link-card:hover { background: var(--led); color: #000; font-weight: bold; }
-        .link-card i { margin-right: 15px; font-size: 1.4rem; width: 25px; }
-
         .btn-play {
-            margin-top: 25px; cursor: pointer; padding: 15px 40px; width: 100%;
-            background: transparent; border: 2px solid var(--led); border-radius: 50px;
-            color: var(--led); font-weight: bold; text-transform: uppercase;
-            box-shadow: 0 0 10px var(--led); transition: 0.3s;
+            margin-top: 25px; cursor: pointer; padding: 18px 40px; width: 100%;
+            background: var(--led); border: none; border-radius: 50px;
+            color: #000; font-weight: 900; text-transform: uppercase;
+            font-size: 1.2rem; box-shadow: 0 0 20px var(--led); transition: 0.3s;
         }
-        .btn-play.active { background: var(--led); color: #000; box-shadow: 0 0 25px var(--led); }
+        .btn-play.active { background: #ff4d6d; color: #fff; box-shadow: 0 0 25px #ff4d6d; }
     </style>
 </head>
 <body>
@@ -68,50 +57,43 @@
 
     <div class="container">
         <div id="clock">00:00:00</div>
-        
         <img src="https://i.imgur.com/kS94P2r.png" alt="Avatar" class="avatar" id="avatarImg">
-        
         <h1>Trọng Trường</h1>
-        <p class="sub-text">Học sinh lớp 9 | Web Developer 🇻🇳</p>
         
         <div class="marquee">
-            <span>🇻🇳 HỖ TRỢ XEM TRÊN MÁY TÍNH & ĐIỆN THOẠI - ĐỒNG HỒ LED NEON 🇻🇳</span>
+            <span>🇻🇳 ĐÃ SỬA LỖI ÂM THANH TRÊN ĐIỆN THOẠI - ĐỒNG HỒ LED - TRỌNG TRƯỜNG 🇻🇳</span>
         </div>
 
-        <div class="links">
-            <a href="https://www.facebook.com/Truong12072009" target="_blank" class="link-card">
-                <i class="fab fa-facebook" style="color:#1877f2"></i> Facebook Cá Nhân
-            </a>
-            <a href="https://www.tiktok.com/@_012di07tuoi09_" target="_blank" class="link-card">
-                <i class="fab fa-tiktok"></i> Ghé thăm TikTok
-            </a>
-        </div>
-
-        <button class="btn-play" id="mainBtn">NHẤN ĐỂ PHÁT NHẠC</button>
+        <button class="btn-play" id="mainBtn">CHẠM ĐỂ NGHE NHẠC 🎵</button>
     </div>
 
     <script>
         function updateTime() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('vi-VN', { hour12: false });
-            document.getElementById('clock').textContent = timeString;
+            document.getElementById('clock').textContent = now.toLocaleTimeString('vi-VN', { hour12: false });
         }
-        setInterval(updateTime, 1000);
-        updateTime();
+        setInterval(updateTime, 1000); updateTime();
 
         const audio = document.getElementById("myAudio");
         const btn = document.getElementById("mainBtn");
         const img = document.getElementById("avatarImg");
         let isPlaying = false;
 
-        btn.onclick = () => {
+        // Hàm kích hoạt nhạc đặc biệt cho điện thoại
+        function playMusic() {
+            audio.play().then(() => {
+                isPlaying = true;
+                btn.innerText = "ĐANG PHÁT...";
+                btn.classList.add('active');
+                img.classList.add('rotating');
+            }).catch(err => {
+                console.log("Cần chạm vào màn hình để phát nhạc");
+            });
+        }
+
+        btn.addEventListener('click', function() {
             if (!isPlaying) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    btn.innerText = "ĐANG PHÁT NHẠC...";
-                    btn.classList.add('active');
-                    img.classList.add('rotating');
-                }).catch(() => alert("Hãy nhấn lại nút một lần nữa để kích hoạt âm thanh!"));
+                playMusic();
             } else {
                 audio.pause();
                 isPlaying = false;
@@ -119,7 +101,14 @@
                 btn.classList.remove('active');
                 img.classList.remove('rotating');
             }
-        };
+        });
+
+        // Tự động thử phát lại khi người dùng tương tác với bất kỳ đâu trên trang
+        document.body.addEventListener('touchstart', function() {
+            if(!isPlaying && audio.paused) {
+                // Chỉ chạy ngầm để xin quyền trình duyệt
+            }
+        }, {passive: true});
     </script>
 </body>
 </html>
