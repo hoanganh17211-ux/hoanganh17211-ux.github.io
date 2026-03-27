@@ -15,12 +15,12 @@
             min-height: 100vh; overflow: hidden; position: relative;
         }
         .container {
-            width: 90%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; 
+            width: 95%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 30px 20px; 
             text-align: center; z-index: 10; position: relative;
         }
 
-        /* --- STYLE ĐỒNG HỒ --- */
+        /* ĐỒNG HỒ LED PHÁT SÁNG */
         #clock {
             font-family: 'Courier New', Courier, monospace;
             font-size: 1.8rem; font-weight: bold; color: var(--primary);
@@ -29,24 +29,24 @@
 
         .avatar { 
             width: 90px; height: 90px; object-fit: cover; border-radius: 50%; 
-            margin: 0 auto 20px; display: block; border: 3px solid var(--primary); 
+            margin: 0 auto 15px; display: block; border: 3px solid var(--primary); 
             box-shadow: 0 0 15px var(--primary); 
         }
 
         h1 {
             background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #38bdf8);
             background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: gradientText 3s linear infinite;
+            animation: gradientText 3s linear infinite; font-size: 1.6rem;
         }
         @keyframes gradientText { to { background-position: 200% center; } }
 
-        .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+        .links { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
         .link-card { background: rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; }
         .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); }
         .link-card i { margin-right: 12px; color: var(--primary); }
 
         .music-btn {
-            margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
+            margin-top: 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
             padding: 10px 25px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary);
         }
         .playing { animation: spin 2s linear infinite; }
@@ -71,69 +71,7 @@
 
         <img src="avatar.jpg.jpg" class="avatar" alt="Avatar">
         <h1>Trọng Trường</h1>
-        <p>Kết nối xu hướng - Lan tỏa đam mê</p>
+        <p style="font-size: 0.9rem; opacity: 0.8;">Kết nối xu hướng - Lan tỏa đam mê</p>
 
         <div class="links">
-            <a href="https://www.tiktok.com/@_012di07tuoi09_" class="link-card"><i class="fa-brands fa-tiktok"></i> TikTok của mình</a>
-            <a href="https://www.facebook.com/Truong12072009" class="link-card"><i class="fa-brands fa-facebook"></i> Facebook chính chủ</a>
-        </div>
-
-        <div class="music-btn" onclick="toggleMusic()">
-            <i id="music-icon" class="fa-solid fa-compact-disc"></i>
-            <span id="music-text">Bật Nhạc</span>
-        </div>
-
-        <audio id="myAudio" loop>
-            <source src="nhac.mp3.mp3" type="audio/mpeg">
-        </audio>
-
-        <footer style="margin-top:20px; font-size:10px; opacity:0.3;">&copy; 2026 hoanganh17211-ux</footer>
-    </div>
-
-    <script>
-        var song = document.getElementById("myAudio");
-        var icon = document.getElementById("music-icon");
-        var text = document.getElementById("music-text");
-        var hasClicked = false;
-
-        function startApp() {
-            if (!hasClicked) { toggleMusic(); hasClicked = true; }
-        }
-
-        function toggleMusic() {
-            if (song.paused) {
-                song.play().then(() => {
-                    text.innerHTML = "Đang Phát"; icon.classList.add("playing");
-                }).catch(e => { console.log(e); });
-            } else {
-                song.pause(); text.innerHTML = "Tạm Dừng"; icon.classList.remove("playing");
-            }
-        }
-
-        // --- CODE ĐỒNG HỒ ---
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').innerText = hours + ":" + minutes + ":" + seconds;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // --- CODE BONG BÓNG ---
-        function createBubble() {
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble';
-            const size = Math.random() * 25 + 10 + 'px';
-            bubble.style.width = size; bubble.style.height = size;
-            bubble.style.left = Math.random() * 100 + 'vw';
-            const duration = Math.random() * 4 + 6;
-            bubble.style.animationDuration = duration + 's';
-            document.body.appendChild(bubble);
-            setTimeout(() => { bubble.remove(); }, duration * 1000);
-        }
-        setInterval(createBubble, 600);
-    </script>
-</body>
-</html>
+            <a href="
