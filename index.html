@@ -19,27 +19,39 @@
             border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; 
             text-align: center; z-index: 10; position: relative;
         }
+
+        /* --- STYLE ĐỒNG HỒ --- */
+        #clock {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.8rem; font-weight: bold; color: var(--primary);
+            text-shadow: 0 0 15px var(--primary); margin-bottom: 20px; letter-spacing: 2px;
+        }
+
         .avatar { 
             width: 90px; height: 90px; object-fit: cover; border-radius: 50%; 
             margin: 0 auto 20px; display: block; border: 3px solid var(--primary); 
             box-shadow: 0 0 15px var(--primary); 
         }
+
         h1 {
             background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #38bdf8);
             background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: gradientText 3s linear infinite;
         }
         @keyframes gradientText { to { background-position: 200% center; } }
+
         .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
         .link-card { background: rgba(255, 255, 255, 0.08); padding: 12px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; }
         .link-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); }
         .link-card i { margin-right: 12px; color: var(--primary); }
+
         .music-btn {
             margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
             padding: 10px 25px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary);
         }
         .playing { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
         .bubble {
             position: fixed; bottom: -100px; background: rgba(56, 189, 248, 0.3);
             box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); border-radius: 50%;
@@ -53,29 +65,41 @@
     </style>
 </head>
 <body onclick="startApp()">
+
     <div class="container">
+        <div id="clock">00:00:00</div>
+
         <img src="avatar.jpg.jpg" class="avatar" alt="Avatar">
         <h1>Trọng Trường</h1>
         <p>Kết nối xu hướng - Lan tỏa đam mê</p>
+
         <div class="links">
             <a href="https://www.tiktok.com/@_012di07tuoi09_" class="link-card"><i class="fa-brands fa-tiktok"></i> TikTok của mình</a>
             <a href="https://www.facebook.com/Truong12072009" class="link-card"><i class="fa-brands fa-facebook"></i> Facebook chính chủ</a>
         </div>
+
         <div class="music-btn" onclick="toggleMusic()">
             <i id="music-icon" class="fa-solid fa-compact-disc"></i>
             <span id="music-text">Bật Nhạc</span>
         </div>
+
         <audio id="myAudio" loop>
             <source src="nhac.mp3.mp3" type="audio/mpeg">
         </audio>
+
         <footer style="margin-top:20px; font-size:10px; opacity:0.3;">&copy; 2026 hoanganh17211-ux</footer>
     </div>
+
     <script>
         var song = document.getElementById("myAudio");
         var icon = document.getElementById("music-icon");
         var text = document.getElementById("music-text");
         var hasClicked = false;
-        function startApp() { if (!hasClicked) { toggleMusic(); hasClicked = true; } }
+
+        function startApp() {
+            if (!hasClicked) { toggleMusic(); hasClicked = true; }
+        }
+
         function toggleMusic() {
             if (song.paused) {
                 song.play().then(() => {
@@ -85,6 +109,19 @@
                 song.pause(); text.innerHTML = "Tạm Dừng"; icon.classList.remove("playing");
             }
         }
+
+        // --- CODE ĐỒNG HỒ ---
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').innerText = hours + ":" + minutes + ":" + seconds;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- CODE BONG BÓNG ---
         function createBubble() {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
