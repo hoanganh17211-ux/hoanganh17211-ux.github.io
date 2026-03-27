@@ -7,57 +7,58 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #38bdf8; --bg: #0f172a; --glass: rgba(255, 255, 255, 0.05); }
+        :root { --primary: #38bdf8; --bg: #0f172a; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at top right, #1e293b, #0f172a);
             color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden;
+            position: relative;
         }
         .container {
-            width: 100%; max-width: 400px; background: var(--glass); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; text-align: center;
+            width: 100%; max-width: 400px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px 20px; text-align: center; z-index: 10;
         }
         .avatar { width: 80px; height: 80px; background: var(--primary); border-radius: 50%; margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; font-weight: bold; }
         .links { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
-        .link-card { background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 10px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid transparent; }
-        .link-card:hover { border-color: var(--primary); transform: scale(1.02); background: rgba(255, 255, 255, 0.1); }
-        .link-card i { margin-right: 12px; width: 20px; }
+        .link-card { background: rgba(255, 255, 255, 0.05); padding: 12px; border-radius: 10px; text-decoration: none; color: white; display: flex; align-items: center; transition: 0.3s; border: 1px solid transparent; }
+        .link-card:hover { border-color: var(--primary); transform: translateY(-3px); }
+        .link-card i { margin-right: 12px; }
 
         /* Nút nhạc */
         .music-btn {
             margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
-            padding: 10px 25px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary); transition: 0.3s;
+            padding: 10px 25px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary);
         }
         .playing { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* Sóng nhạc */
-        .wave-container { display: none; justify-content: center; align-items: flex-end; gap: 3px; height: 20px; margin-top: 15px; }
+        #wave { display: none; justify-content: center; align-items: flex-end; gap: 3px; height: 20px; margin-top: 15px; }
         .bar { width: 3px; background: var(--primary); animation: bounce 1s ease-in-out infinite; }
         @keyframes bounce { 0%, 100% { height: 5px; } 50% { height: 20px; } }
-        .bar:nth-child(2) { animation-delay: 0.2s; }
-        .bar:nth-child(3) { animation-delay: 0.4s; }
 
-        /* Hiệu ứng bong bóng (Bubbles) */
+        /* CSS Bong bóng - Đã thêm màu để dễ nhìn */
         .bubble {
             position: fixed;
             bottom: -50px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(56, 189, 248, 0.15); /* Màu xanh nhạt */
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             pointer-events: none;
-            z-index: -1; /* Bay phía sau nội dung */
+            z-index: 1; 
             animation: floatUp linear forwards;
         }
         @keyframes floatUp {
             0% { transform: translateY(0) scale(1); opacity: 0; }
-            20% { opacity: 0.4; }
+            20% { opacity: 0.6; }
             100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
         }
     </style>
 </head>
-<body onclick="firstClick()"> <div class="container">
+<body onclick="firstClick()">
+
+    <div class="container">
         <div class="avatar">TT</div>
         <h1>Trọng Trường</h1>
         <p>Kết nối xu hướng - Lan tỏa đam mê</p>
@@ -72,8 +73,8 @@
             <span id="music-text">Bật Nhạc</span>
         </div>
 
-        <div id="wave" class="wave-container">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div id="wave">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
         </div>
 
         <audio id="myAudio" loop>
@@ -90,12 +91,8 @@
         var wave = document.getElementById("wave");
         var hasStarted = false;
 
-        // Hàm giúp phát nhạc lần đầu
         function firstClick() {
-            if (!hasStarted) {
-                toggleMusic();
-                hasStarted = true;
-            }
+            if (!hasStarted) { toggleMusic(); hasStarted = true; }
         }
 
         function toggleMusic() {
@@ -113,31 +110,22 @@
             }
         }
 
-        // --- Hàm tạo bong bóng ---
+        // --- Hàm tạo bong bóng (Tự động chạy ngay khi load web) ---
         function createBubble() {
             const bubble = document.createElement('div');
             bubble.className = 'bubble';
-            
-            // Kích thước ngẫu nhiên từ 15px đến 45px
             const size = Math.random() * 30 + 15 + 'px';
             bubble.style.width = size;
             bubble.style.height = size;
-            
-            // Vị trí ngang ngẫu nhiên
             bubble.style.left = Math.random() * 100 + 'vw';
-            
-            // Tốc độ bay ngẫu nhiên từ 6s đến 12s
-            const duration = Math.random() * 6 + 6;
+            const duration = Math.random() * 5 + 7;
             bubble.style.animationDuration = duration + 's';
-            
             document.body.appendChild(bubble);
-            
-            // Xóa bóng sau khi bay xong
             setTimeout(() => { bubble.remove(); }, duration * 1000);
         }
 
-        // Tạo bong bóng mỗi 1.5 giây
-        setInterval(createBubble, 1500);
+        // Tạo bong bóng liên tục mỗi 1 giây
+        setInterval(createBubble, 1000);
     </script>
 </body>
 </html>
