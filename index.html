@@ -15,7 +15,35 @@
         .links { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
         .link-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 12px; text-decoration: none; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
         .link-card:hover { transform: translateY(-3px); border-color: var(--accent-color); background: rgba(255, 255, 255, 0.1); }
-        .music-btn { margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--accent-color); transition: 0.3s; position: relative; }
+        .music-btn { 
+            margin-top: 25px; 
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px; 
+            padding: 10px 20px; 
+            background: rgba(56, 189, 248, 0.2); 
+            border-radius: 50px; 
+            /* Hiệu ứng viền đổi màu (RGB) */
+            border: 2px solid;
+            border-image: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3) 1;
+            animation: rgbBG 5s linear infinite;
+            transition: 0.3s; 
+            position: relative; 
+        }
+
+        /* Hiệu ứng hover (khi di chuột vào) */
+        .music-btn:hover {
+            transform: scale(1.05); /* Phóng to nhẹ */
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5); /* Thêm bóng đổ phát sáng */
+        }
+
+        /* Hiệu ứng đổi màu viền mượt mà */
+        @keyframes rgbBG {
+            0% { border-image-source: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); }
+            50% { border-image-source: linear-gradient(135deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); }
+            100% { border-image-source: linear-gradient(-45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3); }
+        }
         
         /* Hiệu ứng đĩa quay */
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -34,7 +62,23 @@
             0% { transform: translateY(0) scale(1); opacity: 1; }
             100% { transform: translateY(-150px) scale(1.5); opacity: 0; }
         }
-    </style>
+    </style>/* Hiệu ứng hạt rơi (tuyết/tim) */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: rgba(255, 255, 255, 0.8); /* Màu trắng cho tuyết */
+            font-size: 1em;
+            user-select: none;
+            z-index: 1;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
 </head>
 <body>
     <div class="container">
@@ -86,3 +130,24 @@
         }, 2000);
     }
 </script>
+// Hàm tạo hạt rơi toàn màn hình
+        function createSnowflake() {
+            const flake = document.createElement('i');
+            // Bạn có thể thay 'fa-snowflake' thành 'fa-heart' nếu muốn rơi trái tim
+            flake.className = 'fa-solid fa-snowflake snowflake'; 
+            flake.style.left = Math.random() * 100 + 'vw';
+            flake.style.opacity = Math.random();
+            flake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            
+            const duration = Math.random() * 3 + 2; // Rơi trong 2-5 giây
+            flake.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(flake);
+            
+            setTimeout(() => {
+                flake.remove();
+            }, duration * 1000);
+        }
+
+        // Tạo hạt rơi liên tục mỗi 200ms
+        setInterval(createSnowflake, 200);
