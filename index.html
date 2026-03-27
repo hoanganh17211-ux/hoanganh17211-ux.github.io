@@ -24,7 +24,6 @@
         .link-card:hover { border-color: var(--primary); transform: scale(1.02); }
         .link-card i { margin-right: 12px; }
 
-        /* Nút nhạc */
         .music-btn {
             margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
             padding: 10px 20px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary);
@@ -32,24 +31,19 @@
         .playing { animation: spin 2s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Hiệu ứng sóng nhạc */
         #wave { display: none; justify-content: center; align-items: flex-end; gap: 3px; height: 20px; margin-top: 10px; }
         .bar { width: 3px; background: var(--primary); animation: bounce 1s ease-in-out infinite; }
         @keyframes bounce { 0%, 100% { height: 5px; } 50% { height: 20px; } }
-        .bar:nth-child(2) { animation-delay: 0.2s; }
-        .bar:nth-child(3) { animation-delay: 0.4s; }
     </style>
 </head>
-<body>
-
-    <div class="container">
+<body onclick="firstClick()"> <div class="container">
         <div class="avatar">HA</div>
         <h1>Hoàng Anh</h1>
         <p>Kết nối xu hướng - Lan tỏa đam mê</p>
 
         <div class="links">
-            <a href="https://www.tiktok.com/@_012di07tuoi09_" class="link-card"><i class="fa-brands fa-tiktok"></i> TikTok của mình</a>
-            <a href="https://www.facebook.com/Truong12072009" class="link-card"><i class="fa-brands fa-facebook"></i> Facebook chính chủ</a>
+            <a href="https://www.tiktok.com/@_012di07tuoi09_" class="link-card"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+            <a href="https://www.facebook.com/Truong12072009" class="link-card"><i class="fa-brands fa-facebook"></i> Facebook</a>
         </div>
 
         <div class="music-btn" onclick="toggleMusic()">
@@ -58,10 +52,7 @@
         </div>
 
         <div id="wave">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
         </div>
 
         <audio id="myAudio" loop>
@@ -76,6 +67,15 @@
         var icon = document.getElementById("music-icon");
         var text = document.getElementById("music-text");
         var wave = document.getElementById("wave");
+        var hasStarted = false;
+
+        // Hàm này giúp lách luật chặn nhạc của trình duyệt
+        function firstClick() {
+            if (!hasStarted) {
+                toggleMusic();
+                hasStarted = true;
+            }
+        }
 
         function toggleMusic() {
             if (song.paused) {
@@ -84,7 +84,7 @@
                     icon.classList.add("playing");
                     wave.style.display = "flex";
                 }).catch(e => {
-                    alert("Bạn hãy nhấn lại nút Bật Nhạc một lần nữa nhé!");
+                    console.log("Trình duyệt chặn: ", e);
                 });
             } else {
                 song.pause();
