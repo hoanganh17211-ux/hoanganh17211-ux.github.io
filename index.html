@@ -53,7 +53,23 @@
         .snowflake { top: -10px; color: rgba(255, 255, 255, 0.7); }
         .heart { color: #ff4d6d; z-index: 999; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-    </style><.marquee-container {
+    </style></* Hiệu ứng bóng nước */
+        .bubble {
+            position: fixed;
+            bottom: -50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            20% { opacity: 0.5; }
+            100% { transform: translateY(-110vh) translateX(50px); opacity: 0; }
+        }.marquee-container {
             width: 100%;
             overflow: hidden;
             background: rgba(56, 189, 248, 0.1);
@@ -111,7 +127,32 @@
         <footer style="margin-top: 30px; font-size: 0.7rem; color: #64748b;">&copy; 2026 hoanganh17211-ux</footer>
     </div>
 
-    <script>
+    <script>function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            
+            // Kích thước ngẫu nhiên từ 10px đến 40px
+            const size = Math.random() * 30 + 10 + 'px';
+            bubble.style.width = size;
+            bubble.style.height = size;
+            
+            // Vị trí ngang ngẫu nhiên
+            bubble.style.left = Math.random() * 100 + 'vw';
+            
+            // Tốc độ bay ngẫu nhiên
+            const duration = Math.random() * 5 + 5;
+            bubble.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(bubble);
+            
+            // Xóa bóng sau khi bay xong
+            setTimeout(() => {
+                bubble.remove();
+            }, duration * 1000);
+        }
+
+        // Tạo bong bóng mỗi 1 giây
+        setInterval(createBubble, 1000);
         var song = document.getElementById("myAudio");
         var icon = document.getElementById("music-icon");
         var text = document.getElementById("music-text");
