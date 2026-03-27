@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hoàng Anh | Profile</title>
+    <title>Trọng Trường | Profile</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -25,7 +25,13 @@
         .link-card i { margin-right: 12px; }
 
         /* Nút nhạc */
-        .music-btn {
+        .music-btn {<div id="wave" class="wave-container">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
             margin-top: 25px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
             padding: 10px 20px; background: rgba(56, 189, 248, 0.2); border-radius: 50px; border: 1px solid var(--primary);
         }
@@ -37,7 +43,7 @@
 
     <div class="container">
         <div class="avatar">HA</div>
-        <h1>Hoàng Anh</h1>
+        <h1>Trọng Trường</h1>
         <p>Kết nối xu hướng - Lan tỏa đam mê</p>
 
         <div class="links">
@@ -45,7 +51,20 @@
             <a href="https://www.facebook.com/Truong12072009" class="link-card"><i class="fa-brands fa-facebook"></i> Facebook chính chủ</a>
         </div>
 
-        <div class="music-btn" onclick="toggleMusic()">
+        <div class="music-btn" onclick="toggleMusic()function toggleMusic() {
+            var wave = document.getElementById("wave");
+            if (song.paused) {
+                song.play();
+                text.innerHTML = "Đang Phát";
+                icon.classList.add("playing");
+                wave.style.display = "flex"; // Hiện sóng nhạc
+            } else {
+                song.pause();
+                text.innerHTML = "Tạm Dừng";
+                icon.classList.remove("playing");
+                wave.style.display = "none"; // Ẩn sóng nhạc
+            }
+        }">
             <i id="music-icon" class="fa-solid fa-compact-disc"></i>
             <span id="music-text">Bật Nhạc</span>
         </div>
@@ -54,7 +73,27 @@
             <source src="nhac.mp3.mp3." type="audio/mpeg">
         </audio>
 
-        <footer style="margin-top:20px; font-size:10px; opacity:0.5;">&copy; 2026 hoanganh17211-ux</footer>
+        <footer style.wave-container {
+            display: none;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 3px;
+            height: 20px;
+            margin-top: 10px;
+        }
+        .bar {
+            width: 3px;
+            background: var(--primary);
+            animation: bounce 1s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { height: 5px; }
+            50% { height: 20px; }
+        }
+        /* Tạo độ trễ cho từng cột sóng */
+        .bar:nth-child(2) { animation-delay: 0.2s; }
+        .bar:nth-child(3) { animation-delay: 0.4s; }
+        .bar:nth-child(4) { animation-delay: 0.6s; }="margin-top:20px; font-size:10px; opacity:0.5;">&copy; 2026 hoanganh17211-ux</footer>
     </div>
 
     <script>
