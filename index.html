@@ -3,105 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hoàng Anh | LED Profile</title>
+    <title>Hoàng Anh Profile</title>
     <link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --led: #00f2ff; --bg: #050505; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--bg); color: white;
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; overflow: hidden;
-        }
-        .container {
-            width: 95%; max-width: 400px; background: rgba(20, 20, 20, 0.95);
-            border: 2px solid var(--led); border-radius: 40px; padding: 40px 20px;
-            text-align: center; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
-        }
-        #clock {
-            font-family: 'Digital-7 Mono', sans-serif;
-            font-size: clamp(3rem, 12vw, 4.2rem); color: var(--led);
-            text-shadow: 0 0 10px var(--led), 0 0 20px var(--led);
-            background: #000; padding: 20px; border-radius: 20px;
-            margin-bottom: 30px; border: 1px solid rgba(0, 242, 255, 0.3);
-        }
-        .avatar {
-            width: 150px; height: 150px; object-fit: cover; border-radius: 50%;
-            margin: 0 auto 20px; display: block; border: 3px solid white;
-            transition: 0.5s; object-position: center;
-        }
-        .avatar.rotating { animation: rotate 4s linear infinite; border-color: var(--led); box-shadow: 0 0 20px var(--led); }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        body { background: #000; color: #fff; text-align: center; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .box { width: 90%; max-width: 350px; border: 2px solid #00f2ff; border-radius: 30px; padding: 25px; box-shadow: 0 0 20px #00f2ff; }
         
-        h1 { font-size: 2rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
+        /* Đồng hồ LED */
+        #clock { font-family: 'Digital-7 Mono', sans-serif; font-size: 3.5rem; color: #00f2ff; text-shadow: 0 0 10px #00f2ff; margin-bottom: 20px; }
+        
+        /* Avatar - Dùng link trực tiếp từ ảnh bạn đã upload */
+        .avatar { width: 130px; height: 130px; border-radius: 50%; border: 3px solid #fff; object-fit: cover; margin-bottom: 15px; }
+        .rotating { animation: xoay 5s linear infinite; }
+        @keyframes xoay { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .marquee { 
-            width: 100%; overflow: hidden; white-space: nowrap; 
-            background: rgba(255,255,255,0.05); padding: 12px 0; 
-            margin: 25px 0; border-top: 1px solid var(--led); border-bottom: 1px solid var(--led); 
-        }
-        .marquee span { display: inline-block; animation: scroll 15s linear infinite; color: #a78bfa; font-weight: bold; font-size: 1.1rem; }
-        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        h1 { font-size: 1.5rem; letter-spacing: 2px; }
 
-        .btn-play {
-            margin-top: 10px; cursor: pointer; padding: 18px 45px; width: 100%;
-            background: var(--led); border: none; border-radius: 50px;
-            color: #000; font-weight: 900; text-transform: uppercase;
-            font-size: 1.1rem; box-shadow: 0 0 20px var(--led); transition: 0.3s;
-        }
-        .btn-play.active { background: #ff4d6d; color: #fff; box-shadow: 0 0 25px #ff4d6d; }
+        /* Chữ chạy */
+        .run-text { overflow: hidden; white-space: nowrap; background: #111; padding: 10px; margin: 15px 0; border: 1px solid #333; }
+        .run-text span { display: inline-block; animation: move 10s linear infinite; color: #ff00ea; font-weight: bold; }
+        @keyframes move { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* Nút bấm to, dễ chạm trên điện thoại */
+        .btn { background: #00f2ff; color: #000; border: none; padding: 15px; width: 100%; border-radius: 50px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
     </style>
 </head>
 <body>
 
-    <audio id="myAudio" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <audio id="nhac" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="container">
+    <div class="box">
         <div id="clock">00:00:00</div>
         
-        <img src="https://i.ibb.co/Lzd76V2q/avatar.jpg" alt="Avatar" class="avatar" id="avatarImg">
+        <img src="https://i.imgur.com/kS94P2r.png" class="avatar" id="avt">
         
         <h1>HOÀNG ANH</h1>
-        
-        <div class="marquee">
-            <span>🚀 CHÀO MỪNG BẠN ĐẾN VỚI KHÔNG GIAN CỦA HOÀNG ANH - LỚP 9 - WEB DEVELOPER 🚀</span>
+
+        <div class="run-text">
+            <span>🚀 CHÀO MỪNG BẠN ĐẾN VỚI PROFILE CỦA HOÀNG ANH 🚀</span>
         </div>
 
-        <button class="btn-play" id="mainBtn">NHẤN ĐỂ PHÁT NHẠC 🎵</button>
+        <button class="btn" onclick="play()">BẬT NHẠC NGAY 🎵</button>
     </div>
 
     <script>
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('clock').textContent = now.toLocaleTimeString('vi-VN', { hour12: false });
+        // Chạy đồng hồ
+        function time() {
+            let d = new Date();
+            document.getElementById('clock').innerText = d.toLocaleTimeString('vi-VN', {hour12: false});
         }
-        setInterval(updateTime, 1000); updateTime();
+        setInterval(time, 1000); time();
 
-        const audio = document.getElementById("myAudio");
-        const btn = document.getElementById("mainBtn");
-        const img = document.getElementById("avatarImg");
-        let isPlaying = false;
-
-        btn.onclick = () => {
-            if (!isPlaying) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    btn.innerText = "ĐANG PHÁT...";
-                    btn.classList.add('active');
-                    img.classList.add('rotating');
-                }).catch(() => alert("Bạn hãy chạm lại nút một lần nữa để nghe nhạc nhé!"));
+        // Xử lý nhạc
+        let a = document.getElementById("nhac");
+        let b = document.getElementById("avt");
+        function play() {
+            if (a.paused) {
+                a.play();
+                b.classList.add("rotating");
+                document.querySelector(".btn").innerText = "ĐANG PHÁT...";
             } else {
-                audio.pause();
-                isPlaying = false;
-                btn.innerText = "TIẾP TỤC PHÁT";
-                btn.classList.remove('active');
-                img.classList.remove('rotating');
+                a.pause();
+                b.classList.remove("rotating");
+                document.querySelector(".btn").innerText = "TIẾP TỤC PHÁT";
             }
-        };
+        }
     </script>
 </body>
 </html>
